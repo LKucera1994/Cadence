@@ -1,0 +1,146 @@
+[
+  {
+    "Name": "Nite Speedster Board 2000",
+    "Description": "Sample Description",
+    "Price": 200,
+    "PhotoUrl": "images/products/sb-ang1.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 1
+  },
+  {
+    "Name": "Green Nite Board 3000",
+    "Description": "Sample Description",
+    "Price": 150,
+    "PhotoUrl": "images/products/sb-ang2.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 1
+  },
+  {
+    "Name": "Speed Board Speed Rush 3",
+    "Description": "Sample Description",
+    "Price": 180,
+    "PhotoUrl": "images/products/sb-core1.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 2
+  },
+  {
+    "Name": "Speed Super Board",
+    "Description": "Sample Description",
+    "Price": 300,
+    "PhotoUrl": "images/products/sb-core2.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 2
+  },
+  {
+    "Name": "Bassos Board Super Whizzy Fast",
+    "Description": "Sample Description",
+    "Price": 250,
+    "PhotoUrl": "images/products/sb-react1.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 4
+  },
+  {
+    "Name": "Porco Bicycles Entry Board",
+    "Description": "Sample Description",
+    "Price": 120,
+    "PhotoUrl": "images/products/sb-ts1.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 5
+  },
+  {
+    "Name": "Speed Blue Hat",
+    "Description": "Sample Description",
+    "Price": 10,
+    "PhotoUrl": "images/products/hat-core1.png",
+    "ProductTypeId": 2,
+    "ProductBrandId": 2
+  },
+  {
+    "Name": "Green Bassos Woolen Hat",
+    "Description": "Sample Description",
+    "Price": 8,
+    "PhotoUrl": "images/products/hat-react1.png",
+    "ProductTypeId": 2,
+    "ProductBrandId": 4
+  },
+  {
+    "Name": "Purple Bassos Woolen Hat",
+    "Description": "Sample Description",
+    "Price": 15,
+    "PhotoUrl": "images/products/hat-react2.png",
+    "ProductTypeId": 2,
+    "ProductBrandId": 4
+  },
+  {
+    "Name": "Blue Despair Gloves",
+    "Description": "Sample Description",
+    "Price": 18,
+    "PhotoUrl": "images/products/glove-code1.png",
+    "ProductTypeId": 4,
+    "ProductBrandId": 3
+  },
+  {
+    "Name": "Green Despair Gloves",
+    "Description": "Sample Description",
+    "Price": 15,
+    "PhotoUrl": "images/products/glove-code2.png",
+    "ProductTypeId": 4,
+    "ProductBrandId": 3
+  },
+  {
+    "Name": "Purple Bassos Gloves",
+    "Description": "Sample Description",
+    "Price": 16,
+    "PhotoUrl": "images/products/glove-react1.png",
+    "ProductTypeId": 4,
+    "ProductBrandId": 4
+  },
+  {
+    "Name": "Green Bassos Gloves",
+    "Description": "Sample Description",
+    "Price": 14,
+    "PhotoUrl": "images/products/glove-react2.png",
+    "ProductTypeId": 4,
+    "ProductBrandId": 4
+  },
+  {
+    "Name": "Pavic Parts Red Boots",
+    "Description": "Sample Description",
+    "Price": 250,
+    "PhotoUrl": "images/products/boot-redis1.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 6
+  },
+  {
+    "Name": "Speed Boots",
+    "Description": "Sample Description",
+    "Price": 189.99,
+    "PhotoUrl": "images/products/boot-core2.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 2
+  },
+  {
+    "Name": "Speed Purple Boots",
+    "Description": "Sample Description",
+    "Price": 199.99,
+    "PhotoUrl": "images/products/boot-core1.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 2
+  },
+  {
+    "Name": "Nite Purple Boots",
+    "Description": "Sample Description",
+    "Price": 150,
+    "PhotoUrl": "images/products/boot-ang2.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 1
+  },
+  {
+    "Name": "Nite Blue Boots",
+    "Description": "Sample Description",
+    "Price": 180,
+    "PhotoUrl": "images/products/boot-ang1.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 1
+  }
+]

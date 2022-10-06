@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
@@ -10,5 +11,20 @@ namespace Infrastructure.Data
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductBrand> ProductBrands { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            //Seeding the database
+            builder.ApplyConfiguration(new ProductConfiguration());
+            builder.ApplyConfiguration(new ProductTypeConfiguration());
+            builder.ApplyConfiguration(new ProductBrandConfiguration());
+
+
+
+        }
     }
 }
