@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
-    public class Product
+    public class Product :BaseEntity
     {
-       [Required]
-        public int Id { get; set; }
+        
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
@@ -14,16 +14,17 @@ namespace Core.Entities
         public decimal Price { get; set; }
         [MaxLength(300)]
         public string Description { get; set; }
-        [Required]
         public string PhotoUrl { get; set; }
-
-        public ProductType ProductType { get; set; }
-        [ForeignKey(nameof(ProductTypeId))]
+        [ValidateNever]
         public int ProductTypeId { get; set; }
-
-        public ProductBrand ProductBrand { get; set; }
-        [ForeignKey(nameof(ProductBrandId))]
+        [ForeignKey(nameof(ProductTypeId))]
+        public ProductType ProductType { get; set; }
+        [ValidateNever]
         public int ProductBrandId { get; set; }
+        [ForeignKey(nameof(ProductBrandId))]
+        public ProductBrand ProductBrand { get; set; }
+        
+        
 
 
     }

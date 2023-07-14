@@ -1,7 +1,9 @@
 ﻿
+using API.Helpers;
+using AutoMapper;
 using Core.Entities;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Core.Entities.DTOs;
+using Infrastructure.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,37 +13,90 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository repository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IProductRepository repository)
+        public ProductsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.repository = repository;
+            
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetAllProducts()
+        public  async Task<ActionResult<Pagination<IEnumerable<ProductDTO>>>> GetAllProducts([FromQuery]ProductParams productParams)
         {
-            var products = await repository.GetAllProductsAsync();
-            return Ok(products);
+            var sortParam = String.IsNullOrEmpty(productParams.SortOrder) ? "" :
+                            productParams.SortOrder == "priceAsc"? "priceAsc" :
+                            productParams.SortOrder == "priceDesc" ? "priceDesc": 
+                            "nameDesc";
+
+            var products = await _unitOfWork.Product.GetAll(x=> 
+                                                            (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
+                                                            (!productParams.BrandId.HasValue ||x.ProductBrandId== productParams.BrandId) &&
+                                                            (!productParams.TypeId.HasValue || x.ProductTypeId== productParams.TypeId), 
+                                                            includeProperties: "ProductBrand,ProductType");
+
+            //sorting
+            switch (sortParam)
+            {
+                case "nameDesc":
+                    products = products.OrderByDescending(x => x.Name);
+                    break;
+                case "priceAsc":
+                    products = products.OrderBy(x => x.Price);
+                    break;
+                case "priceDesc":
+                    products = products.OrderByDescending(x => x.Price);
+                    break;
+                default: 
+                    products = products.OrderBy(x => x.Name);
+                    break;
+            }
+
+            int productCount = products.Count();
+            products = products.Skip(productParams.PageSize*(productParams.PageIndex-1)).Take(productParams.PageSize);
+            
+
+            if (products.Any())
+            {
+                var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
+                return Ok(new Pagination<ProductDTO>(productParams.PageIndex, productParams.PageSize, productCount, mappedProducts));
+
+
+                
+                
+            }
+            return NotFound();
 
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProductById(int id)
+        public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
-            return await repository.GetProductByIdAsync(id);
+            var product = await _unitOfWork.Product.GetFirstOrDefault(x => x.Id == id, includeProperties: "ProductBrand,ProductType");
+
+            if(product != null)
+            {
+                return _mapper.Map<Product,ProductDTO>(product);
+            }
+
+            return NotFound();
+            
         }
 
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
-            return await repository.GetAllProductBrandsAsync();
+            var brands = await _unitOfWork.ProductBrand.GetAll();
+            return Ok(brands) ;
         }
 
         [HttpGet("types")]
         public async Task<ActionResult<List<ProductType>>> GetProductType()
         {
-            return await repository.GetAllProductTypesAsync();
+            var types = await _unitOfWork.ProductType.GetAll();
+            return Ok(types);
         }
 
 

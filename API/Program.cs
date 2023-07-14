@@ -1,6 +1,8 @@
 
 using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Infrastructure.Data.Repository;
+using Infrastructure.Data.Repository.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Text.Json.Serialization;
@@ -20,7 +22,22 @@ builder.Services.AddDbContext<DataContext>(options => {
     
     
     });
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+
+builder.Services.AddCors(options=>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped(typeof(GenericRepository<>), typeof(GenericRepository<>));
 
 
 builder.Services.AddControllers();
@@ -37,23 +54,17 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 
-
-
-
-
-
-
-
-
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
