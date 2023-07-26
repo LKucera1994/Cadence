@@ -18,7 +18,7 @@ namespace Infrastructure.Configurations
                 new ProductType
                 {
                     Id = 1,
-                    Name = "Boards"
+                    Name = "Bikes"
 
                 },
 

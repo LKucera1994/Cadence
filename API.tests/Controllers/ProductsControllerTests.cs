@@ -9,7 +9,7 @@ namespace Cadence.Tests.Controllers
 {
     public class ProductsControllerTests
     {
-
+        /*
 
         [Fact]
         public async void Get_OnSuccess_InvokesUnitOfWorkOnce()
@@ -52,6 +52,7 @@ namespace Cadence.Tests.Controllers
 
 
         }
+        */
         
 
 

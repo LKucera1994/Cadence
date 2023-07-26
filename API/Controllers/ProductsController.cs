@@ -54,20 +54,22 @@ namespace API.Controllers
                     break;
             }
 
+            //Pagination
             int productCount = products.Count();
             products = products.Skip(productParams.PageSize*(productParams.PageIndex-1)).Take(productParams.PageSize);
             
 
-            if (products.Any())
-            {
-                var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
-                return Ok(new Pagination<ProductDTO>(productParams.PageIndex, productParams.PageSize, productCount, mappedProducts));
+            
+            
+            //Mapping to DTO
+            var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
+            return Ok(new Pagination<ProductDTO>(productParams.PageIndex, productParams.PageSize, productCount, mappedProducts));
 
 
                 
                 
-            }
-            return NotFound();
+            
+            
 
         }
 

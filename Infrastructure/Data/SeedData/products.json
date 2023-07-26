@@ -1,6 +1,6 @@
 [
   {
-    "Name": "Nite Speedster Board 2000",
+    "Name": "Nite Speedster Bike 2000",
     "Description": "Sample Description",
     "Price": 200,
     "PhotoUrl": "images/products/sb-ang1.png",
@@ -8,7 +8,7 @@
     "ProductBrandId": 1
   },
   {
-    "Name": "Green Nite Board 3000",
+    "Name": "Green Nite Bike 3000",
     "Description": "Sample Description",
     "Price": 150,
     "PhotoUrl": "images/products/sb-ang2.png",
@@ -16,7 +16,7 @@
     "ProductBrandId": 1
   },
   {
-    "Name": "Speed Board Speed Rush 3",
+    "Name": "Speed Bike Speed Rush 3",
     "Description": "Sample Description",
     "Price": 180,
     "PhotoUrl": "images/products/sb-core1.png",
@@ -32,7 +32,7 @@
     "ProductBrandId": 2
   },
   {
-    "Name": "Bassos Board Super Whizzy Fast",
+    "Name": "Bassos Bike Super Whizzy Fast",
     "Description": "Sample Description",
     "Price": 250,
     "PhotoUrl": "images/products/sb-react1.png",
@@ -40,7 +40,7 @@
     "ProductBrandId": 4
   },
   {
-    "Name": "Porco Bicycles Entry Board",
+    "Name": "Porco Bike Entry",
     "Description": "Sample Description",
     "Price": 120,
     "PhotoUrl": "images/products/sb-ts1.png",
