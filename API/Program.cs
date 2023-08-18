@@ -5,6 +5,7 @@ using Infrastructure.Data.Repository.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,13 @@ builder.Services.AddDbContext<DataContext>(options => {
     
     
     });
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
+{
+    var options = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
+    return ConnectionMultiplexer.Connect(options);
+
+});
 
 
 builder.Services.AddCors(options=>
