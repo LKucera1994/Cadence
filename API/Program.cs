@@ -45,6 +45,7 @@ builder.Services.AddCors(options=>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBasketRepository,BasketRepository>();
 
 builder.Services.AddScoped(typeof(GenericRepository<>), typeof(GenericRepository<>));
 
