@@ -1,10 +1,13 @@
 ﻿using Core.Entities;
+using Core.Entities.Identity;
 using Infrastructure.Configurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<AppUser>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -17,14 +20,21 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            
 
-            //Seeding the database
+            //Seeding the database with products,types and brands
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new ProductTypeConfiguration());
             builder.ApplyConfiguration(new ProductBrandConfiguration());
+            builder.ApplyConfiguration(new SeedUserConfiguration());
+
+            
+
+            
 
 
 
+            
         }
     }
 }

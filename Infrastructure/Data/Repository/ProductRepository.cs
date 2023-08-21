@@ -13,7 +13,7 @@ namespace Infrastructure.Data.Repository
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {
-        private DataContext dataContext;
+        private  DataContext dataContext;
         public ProductRepository(DataContext dataContext) : base(dataContext)
         {
             this.dataContext = dataContext;

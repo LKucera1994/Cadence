@@ -1,8 +1,10 @@
 
+using Core.Entities.Identity;
+using Infrastructure.Configurations;
 using Infrastructure.Data;
 using Infrastructure.Data.Repository;
 using Infrastructure.Data.Repository.Interfaces;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
@@ -24,6 +26,23 @@ builder.Services.AddDbContext<DataContext>(options => {
     
     });
 
+
+
+builder.Services.AddIdentityCore<AppUser>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 10;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    
+
+    //options.Lockout.AllowedForNewUsers = true;
+    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    //options.Lockout.MaxFailedAccessAttempts = 3;
+})  
+    .AddEntityFrameworkStores<DataContext>()
+    .AddSignInManager<SignInManager<AppUser>>();
+
 builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
 {
     var options = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
@@ -42,6 +61,8 @@ builder.Services.AddCors(options=>
     });
 });
 
+
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -55,6 +76,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 
 
@@ -77,7 +100,21 @@ app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");
 
+
+app.UseAuthentication();
 app.UseAuthorization();
+
+//var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+//using (var scope = scopeFactory.CreateScope())
+//{
+    
+//    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+//    await SeedUserConfiguration.SeedUsersAsync(userManager);
+//}
+
+//var userManager = app.Services.GetRequiredService<UserManager<AppUser>>();
+
+//await SeedUserConfiguration.SeedUsersAsync(userManager);
 
 app.MapControllers();
 app.UseStaticFiles();
