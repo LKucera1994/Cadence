@@ -4,16 +4,17 @@ using Infrastructure.Configurations;
 using Infrastructure.Data;
 using Infrastructure.Data.Repository;
 using Infrastructure.Data.Repository.Interfaces;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-
 
 
 
@@ -63,20 +64,36 @@ builder.Services.AddCors(options=>
 
 
 
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBasketRepository,BasketRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddScoped(typeof(GenericRepository<>), typeof(GenericRepository<>));
-
+builder.Services.AddScoped(typeof(UserManager<AppUser>), typeof(UserManager<AppUser>));
+builder.Services.AddScoped(typeof(SignInManager<AppUser>), typeof(SignInManager<AppUser>));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options=>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:Key"])),
+            ValidIssuer = builder.Configuration["Token:Issuer"],
+            ValidateIssuer = true,
+            ValidateAudience = false
+        };
+    }
+
+);
 builder.Services.AddAuthorization();
 
 
@@ -102,19 +119,14 @@ app.UseCors("CorsPolicy");
 
 
 app.UseAuthentication();
+    
+
+
 app.UseAuthorization();
 
-//var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-//using (var scope = scopeFactory.CreateScope())
-//{
-    
-//    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-//    await SeedUserConfiguration.SeedUsersAsync(userManager);
-//}
-
-//var userManager = app.Services.GetRequiredService<UserManager<AppUser>>();
-
-//await SeedUserConfiguration.SeedUsersAsync(userManager);
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
 app.MapControllers();
 app.UseStaticFiles();

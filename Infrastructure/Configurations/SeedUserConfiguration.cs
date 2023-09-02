@@ -23,6 +23,7 @@ namespace Infrastructure.Configurations
                 Email = "steve@test.com",
                 UserName = "steve@test.com",
                 NormalizedUserName = "STEVE@TEST.COM",
+                NormalizedEmail = "STEVE@TEST.COM",
                 FirstName = "Steve",
                 LastName = "Stevenson",
                 Street = "TestStreet",
