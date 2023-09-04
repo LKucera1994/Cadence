@@ -1,4 +1,5 @@
 
+using API.Extensions;
 using Core.Entities.Identity;
 using Infrastructure.Configurations;
 using Infrastructure.Data;
@@ -44,6 +45,8 @@ builder.Services.AddIdentityCore<AppUser>(options =>
     .AddEntityFrameworkStores<DataContext>()
     .AddSignInManager<SignInManager<AppUser>>();
 
+builder.Services.AddSwaggerDocumentation();
+
 builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
 {
     var options = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
@@ -76,9 +79,7 @@ builder.Services.AddScoped(typeof(UserManager<AppUser>), typeof(UserManager<AppU
 builder.Services.AddScoped(typeof(SignInManager<AppUser>), typeof(SignInManager<AppUser>));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options=>
@@ -107,8 +108,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerDocumentation();  
+    
 }
 
 

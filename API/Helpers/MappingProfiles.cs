@@ -20,6 +20,9 @@ namespace API.Helpers
             .ForMember(destination => destination.Street, origin => origin.MapFrom(x => x.Street))
             .ForMember(destination => destination.City, origin => origin.MapFrom(x => x.City))
             .ForMember(destination => destination.State, origin => origin.MapFrom(x => x.State));
+
+            CreateMap<UserBasketDto, UserBasket>();
+            CreateMap<BasketItemDto, BasketItem>();
         }
     }
 }
