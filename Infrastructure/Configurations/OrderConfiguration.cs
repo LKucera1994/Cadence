@@ -18,6 +18,8 @@ namespace Infrastructure.Configurations
                 a.WithOwner();
             });
 
+            builder.Navigation(x => x.ShipToAddress).IsRequired();
+
             builder.Property(s => s.Status)
                 .HasConversion(
                 x=> x.ToString(),

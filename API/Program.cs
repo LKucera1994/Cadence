@@ -3,6 +3,7 @@ using API.Extensions;
 using Core.Entities.Identity;
 using Infrastructure.Configurations;
 using Infrastructure.Data;
+using Infrastructure.Data.Interfaces;
 using Infrastructure.Data.Repository;
 using Infrastructure.Data.Repository.Interfaces;
 using Infrastructure.Services;
@@ -73,6 +74,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBasketRepository,BasketRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddScoped(typeof(GenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(UserManager<AppUser>), typeof(UserManager<AppUser>));

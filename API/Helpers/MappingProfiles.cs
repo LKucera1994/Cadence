@@ -3,6 +3,7 @@ using AutoMapper;
 using Core.Entities;
 using Core.Entities.DTOs;
 using Core.Entities.Identity;
+using Core.Entities.OrderAggregate;
 
 namespace API.Helpers
 {
@@ -21,6 +22,8 @@ namespace API.Helpers
             .ForMember(destination => destination.City, origin => origin.MapFrom(x => x.City))
             .ForMember(destination => destination.State, origin => origin.MapFrom(x => x.State));
 
+
+            CreateMap<AppUserDto, Address>();
             CreateMap<UserBasketDto, UserBasket>();
             CreateMap<BasketItemDto, BasketItem>();
         }
