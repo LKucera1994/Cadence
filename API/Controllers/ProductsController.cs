@@ -33,8 +33,8 @@ namespace API.Controllers
 
             var products = await _unitOfWork.Product.GetAll(x=> 
                                                             (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
-                                                            (!productParams.BrandId.HasValue ||x.ProductBrandId== productParams.BrandId) &&
-                                                            (!productParams.TypeId.HasValue || x.ProductTypeId== productParams.TypeId), 
+                                                            (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId) &&
+                                                            (!productParams.TypeId.HasValue || x.ProductTypeId == productParams.TypeId), 
                                                             includeProperties: "ProductBrand,ProductType");
 
             //sorting

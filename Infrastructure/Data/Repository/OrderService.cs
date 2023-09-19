@@ -20,10 +20,11 @@ namespace Infrastructure.Data.Repository
 
         public OrderService(IUnitOfWork unitOfWork, IBasketRepository basketRepository, DataContext dataContext) : base(dataContext)
         {
-            _dataContext = dataContext;
+            
             _unitOfWork = unitOfWork;
             _basketRepository = basketRepository;
 
+            _dataContext = dataContext;
             
             
         }
@@ -52,8 +53,12 @@ namespace Infrastructure.Data.Repository
             var order = new Order(buyerEmail, shippingAddress, deliveryMethod, items, subtotal);
 
             //save to db
+
+            
             _dataContext.Add(order);
-            var result = await _dataContext.SaveChangesAsync();
+            var result = await _unitOfWork.Save();
+
+            
 
             if(result <= 0)
             {
@@ -68,9 +73,9 @@ namespace Infrastructure.Data.Repository
 
         }
 
-        public Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
+        public async Task<IEnumerable<DeliveryMethod>> GetDeliveryMethodsAsync()
         {
-            throw new NotImplementedException();
+            return await  _unitOfWork.DeliveryMethod.GetAll(x => true);
         }
 
         public Task<Order> UpdateOrderAsync(Order order)

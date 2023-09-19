@@ -12,6 +12,6 @@ namespace Infrastructure.Data.Interfaces
     {
         Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethod, string basketId, Address shippingAddress);
         Task<Order> UpdateOrderAsync(Order order);
-        Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync();
+        Task<IEnumerable<DeliveryMethod>> GetDeliveryMethodsAsync();
     }
 }
