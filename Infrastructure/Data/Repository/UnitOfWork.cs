@@ -24,7 +24,9 @@ namespace Infrastructure.Data.Repository
             Product = new ProductRepository(_dataContext);
             ProductBrand = new ProductBrandRepository(_dataContext);
             ProductType = new ProductTypeRepository(_dataContext);          
-            DeliveryMethod = new DeliveryMethodRepository(_dataContext);
+            DeliveryMethod = new DeliveryMethodRepository(_dataContext);       
+            Basket = new BasketRepository(_dataContext);
+            //OrderRepository = new OrderRepository(BasketRepository, _dataContext);
 
         }
 
@@ -32,6 +34,8 @@ namespace Infrastructure.Data.Repository
         public IProductBrandRepository ProductBrand { get; set; }
         public IProductTypeRepository ProductType { get; set; }
         public IDeliveryMethodRepository DeliveryMethod { get; set; }
+        public IOrderRepository Order { get; set; }
+        public IBasketRepository Basket { get; set; }
 
         public void Dispose()
         {

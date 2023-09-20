@@ -14,7 +14,7 @@ namespace Infrastructure.Data.Repository.Interfaces
         Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? predicate = null, string? includeProperties = null);
 
         Task <IEnumerable<T>> ApplyPagination(int skip, int take);
-        Task Add(T entity);
+        Task<T> Add(T entity);
 
         
 

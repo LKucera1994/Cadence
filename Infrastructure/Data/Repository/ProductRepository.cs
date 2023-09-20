@@ -13,7 +13,7 @@ namespace Infrastructure.Data.Repository
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {
-        private  DataContext dataContext;
+        private readonly DataContext dataContext;
         public ProductRepository(DataContext dataContext) : base(dataContext)
         {
             this.dataContext = dataContext;
@@ -24,6 +24,7 @@ namespace Infrastructure.Data.Repository
 
             if(productFromDb != null)
             {
+                
 
                 productFromDb.Name = product.Name;
                 productFromDb.Price = product.Price;

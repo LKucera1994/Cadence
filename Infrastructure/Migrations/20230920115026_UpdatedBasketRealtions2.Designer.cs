@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230920115026_UpdatedBasketRealtions2")]
+    partial class UpdatedBasketRealtions2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,7 +62,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("UserBasketId");
 
-                    b.ToTable("BasketItems");
+                    b.ToTable("BasketItem");
                 });
 
             modelBuilder.Entity("Core.Entities.Identity.AppUser", b =>
@@ -152,10 +154,10 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "57302ea4-2d57-43af-b201-684c954e5c0d",
+                            Id = "a9ce0803-a730-4740-8665-1f74d8df55b3",
                             AccessFailedCount = 0,
                             City = "TestCity",
-                            ConcurrencyStamp = "c3849ba4-a1c5-4c02-8112-03b1e0b27863",
+                            ConcurrencyStamp = "5a8bbc22-30f4-40e3-963d-023a75ee1b2e",
                             DisplayName = "Steve",
                             Email = "steve@test.com",
                             EmailConfirmed = false,
@@ -164,9 +166,9 @@ namespace Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STEVE@TEST.COM",
                             NormalizedUserName = "STEVE@TEST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM3lJPfSwtrMGDJyzGuazOd+QkiPfI1zaN5bPhSUnomfMp9OBLxlT3wYFDLlvIePKw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIHqXXXvyC2ticupMazXeMvedHImXTM9DVSBtSL/MtdCeK4GtQ8IAn9tCkkYueX8LQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d9955a9f-f3ba-4d8b-9019-04181e1cf605",
+                            SecurityStamp = "8015e9f8-5b24-4e6e-9edb-1ec7c9151613",
                             State = "TestState",
                             Street = "TestStreet",
                             TwoFactorEnabled = false,

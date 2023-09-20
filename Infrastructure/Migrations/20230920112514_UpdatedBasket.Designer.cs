@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230920112514_UpdatedBasket")]
+    partial class UpdatedBasket
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,14 +55,13 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserBasketId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserBasketId");
 
-                    b.ToTable("BasketItems");
+                    b.ToTable("BasketItem");
                 });
 
             modelBuilder.Entity("Core.Entities.Identity.AppUser", b =>
@@ -152,10 +153,10 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "57302ea4-2d57-43af-b201-684c954e5c0d",
+                            Id = "43e80132-bf33-4030-b2ed-02bf7a339f19",
                             AccessFailedCount = 0,
                             City = "TestCity",
-                            ConcurrencyStamp = "c3849ba4-a1c5-4c02-8112-03b1e0b27863",
+                            ConcurrencyStamp = "a2a7bdba-0955-4ba2-a938-94e3f53636b9",
                             DisplayName = "Steve",
                             Email = "steve@test.com",
                             EmailConfirmed = false,
@@ -164,9 +165,9 @@ namespace Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STEVE@TEST.COM",
                             NormalizedUserName = "STEVE@TEST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM3lJPfSwtrMGDJyzGuazOd+QkiPfI1zaN5bPhSUnomfMp9OBLxlT3wYFDLlvIePKw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPMYXc679tc67YfL0FNcdxfOdbZjCPy2txA+FLTNxV1q8Se2LJKT2O9Hbs1NXvCkug==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d9955a9f-f3ba-4d8b-9019-04181e1cf605",
+                            SecurityStamp = "80bc8f48-d8bf-4a10-80be-c44d04c643c8",
                             State = "TestState",
                             Street = "TestStreet",
                             TwoFactorEnabled = false,
@@ -752,13 +753,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.BasketItem", b =>
                 {
-                    b.HasOne("Core.Entities.UserBasket", "UserBasket")
+                    b.HasOne("Core.Entities.UserBasket", null)
                         .WithMany("Items")
-                        .HasForeignKey("UserBasketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserBasket");
+                        .HasForeignKey("UserBasketId");
                 });
 
             modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>

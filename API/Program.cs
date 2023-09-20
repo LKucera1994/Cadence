@@ -68,13 +68,14 @@ builder.Services.AddCors(options=>
 
 
 
+builder.Services.AddControllers().AddJsonOptions(x=>
+x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IBasketRepository,BasketRepository>();
+
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
+//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddScoped(typeof(GenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(UserManager<AppUser>), typeof(UserManager<AppUser>));

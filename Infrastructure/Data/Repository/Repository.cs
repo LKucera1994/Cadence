@@ -21,9 +21,10 @@ namespace Infrastructure.Data.Repository
         }
 
 
-        public async Task Add(T entity)
+        public async Task<T> Add(T entity)
         {
-            await dbSet.AddAsync(entity);
+            var result = await dbSet.AddAsync(entity);
+            return result.Entity;
         }
 
         public async Task<IEnumerable<T>> ApplyPagination(int skip, int take)
@@ -33,6 +34,8 @@ namespace Infrastructure.Data.Repository
 
             return await query.ToListAsync();
         }
+
+
 
        
 
@@ -76,6 +79,7 @@ namespace Infrastructure.Data.Repository
 
         public void Remove(T entity)
         {
+            
              dbSet.Remove(entity);
         }
 

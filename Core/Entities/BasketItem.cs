@@ -1,4 +1,8 @@
-﻿namespace Core.Entities
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Core.Entities
 {
     public class BasketItem 
     {
@@ -9,5 +13,16 @@
         public string PictureUrl { get; set; }
         public string Brand { get; set; }
         public string Type { get; set; }
+
+
+        
+        
+        
+        public string UserBasketId { get; set; }
+
+
+        [ForeignKey("UserBasketId")]
+
+        public UserBasket UserBasket { get; set; } 
     }
 }

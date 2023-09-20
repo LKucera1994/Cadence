@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Repository
 {
     public class DeliveryMethodRepository: Repository<DeliveryMethod> , IDeliveryMethodRepository
     {
-        private DataContext dataContext;
+        private readonly DataContext dataContext;
         public DeliveryMethodRepository(DataContext dataContext) : base(dataContext)
         {
             this.dataContext = dataContext;

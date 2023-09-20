@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Interfaces
 {
-    public interface IOrderService: IRepository<Order>
+    public interface IOrderRepository: IRepository<Order>
     {
         Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethod, string basketId, Address shippingAddress);
         Task<Order> UpdateOrderAsync(Order order);

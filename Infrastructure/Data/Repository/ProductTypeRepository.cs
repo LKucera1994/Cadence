@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Repository
 {
     public class ProductTypeRepository : Repository<ProductType>, IProductTypeRepository
     {
-        private DataContext dataContext;
+        private readonly DataContext dataContext;
         public ProductTypeRepository(DataContext dataContext) : base(dataContext)
         {
             this.dataContext = dataContext;

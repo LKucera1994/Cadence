@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230920131605_UpdatedBasketRealtions7")]
+    partial class UpdatedBasketRealtions7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,10 +154,10 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "57302ea4-2d57-43af-b201-684c954e5c0d",
+                            Id = "f36aa2b4-2207-444b-b816-5cb49618bbb8",
                             AccessFailedCount = 0,
                             City = "TestCity",
-                            ConcurrencyStamp = "c3849ba4-a1c5-4c02-8112-03b1e0b27863",
+                            ConcurrencyStamp = "248fb8cb-5b0f-445c-a440-ac07bf8da083",
                             DisplayName = "Steve",
                             Email = "steve@test.com",
                             EmailConfirmed = false,
@@ -164,9 +166,9 @@ namespace Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STEVE@TEST.COM",
                             NormalizedUserName = "STEVE@TEST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM3lJPfSwtrMGDJyzGuazOd+QkiPfI1zaN5bPhSUnomfMp9OBLxlT3wYFDLlvIePKw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELQ6oXfmSJtYgKDh3hzuNzm5BF6f4FNnP8sLSG2ZW3JPiYyOAZ+016EvmgHBbOiqlw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d9955a9f-f3ba-4d8b-9019-04181e1cf605",
+                            SecurityStamp = "5ae66e3f-b036-493b-b842-a3ce6c53a548",
                             State = "TestState",
                             Street = "TestStreet",
                             TwoFactorEnabled = false,
