@@ -20,8 +20,7 @@ namespace Infrastructure.Data
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
-        public DbSet<UserBasket> UserBaskets { get; set; }
-        public DbSet<BasketItem> BasketItems { get; set; }
+        
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -33,7 +32,7 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new ProductTypeConfiguration());
             builder.ApplyConfiguration(new ProductBrandConfiguration());
-            builder.ApplyConfiguration(new SeedUserConfiguration());
+            //builder.ApplyConfiguration(new SeedUserConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new OrderItemConfiguration());
             builder.ApplyConfiguration(new DeliveryMethodConfiguration());

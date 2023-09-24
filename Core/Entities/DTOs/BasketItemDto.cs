@@ -19,8 +19,8 @@ namespace Core.Entities.DTOs
         [Required]
         [Range(1,double.MaxValue, ErrorMessage = "Quantity must be at least 1")]
         public int Quantity { get; set; }
-        [Required]
-        public string PictureUrl { get; set; }
+        
+        public string PhotoUrl { get; set; }
         [Required]
         public string Brand { get; set; }
         [Required]

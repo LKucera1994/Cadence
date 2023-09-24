@@ -152,6 +152,24 @@ namespace API.Controllers
             };
         }
 
+        [HttpDelete("delete")]
+        [Authorize]
+        public async Task<ActionResult> DeleteUser()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(email);
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+                return Ok("User successfully deleted");
+
+            else
+                return BadRequest("Error at deleting user");
+
+
+        }
+
         
 
     }

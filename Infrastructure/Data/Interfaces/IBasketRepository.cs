@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository.Interfaces
 {
-    public interface IBasketRepository: IRepository<UserBasket>
+    public interface IBasketRepository
     {
        
-        Task UpdateBasketAsync(UserBasket basket);
+        Task<UserBasket> UpdateBasketAsync(UserBasket basket);
+        Task<UserBasket> GetBasketAsync(string basketId);
+        Task<bool> DeleteBasketAsync(string basketId);
         
     }
 }

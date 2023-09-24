@@ -10,68 +10,48 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class BasketController : ControllerBase
     {
-        
-
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IBasketRepository _basketRepository;
         private readonly IMapper _mapper;
 
-        public BasketController(IUnitOfWork unitOfWork, IMapper mapper)
+        public BasketController(IBasketRepository basketRepository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _basketRepository = basketRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<UserBasket>> GetBasketById(string id)
         {
-            var basket = await _unitOfWork.Basket.GetFirstOrDefault(x => x.Id == id);
+            var basket = await _basketRepository.GetBasketAsync(id);
 
-            await _unitOfWork.Save();
-
-            if (basket == null)
-                return NotFound("Problem at finding Basket");
-
-            return Ok(basket);
+            return Ok(basket ?? new UserBasket(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateBasket(UserBasketDto basket)
+        public async Task<ActionResult<UserBasket>> CreateBasket(UserBasketDto basket)
         {
             var userBasket = _mapper.Map<UserBasketDto, UserBasket>(basket);
 
-            var result = await _unitOfWork.Basket.Add(userBasket);
+            var result = await _basketRepository.UpdateBasketAsync(userBasket); 
 
-            await _unitOfWork.Save();
+           
 
             if (result == null)
                 BadRequest("Problem at creating Basket");
 
 
 
-            return Ok("Basket created succesfully");
+            return Ok(result);
         }
 
 
 
-        [HttpPut]
-        public async Task<ActionResult<UserBasket>> UpdateBasket(UserBasketDto basket)
-        {
-
-            var userBasket = _mapper.Map<UserBasketDto, UserBasket>(basket);
-
-            await _unitOfWork.Basket.UpdateBasketAsync(userBasket);
-            await _unitOfWork.Save();
-
-            
-            return Ok();
-        }
+        
 
         [HttpDelete]
         public async Task DeleteBasketAsync(string id)
         {
-            var basket = await _unitOfWork.Basket.GetFirstOrDefault(x => x.Id == id);
-            _unitOfWork.Basket.Remove(basket);
-            await _unitOfWork.Save();
+            await _basketRepository.DeleteBasketAsync(id);
 
         }
 

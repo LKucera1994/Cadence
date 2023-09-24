@@ -11,49 +11,44 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
 {
-    public class BasketRepository : Repository<UserBasket> ,IBasketRepository
+    public class BasketRepository : IBasketRepository
     {
-        private readonly DataContext _dataContext;
-        public BasketRepository(DataContext dataContext):base(dataContext)
+        private readonly IDatabase _database;
+
+        public BasketRepository(IConnectionMultiplexer redis)
         {
-            _dataContext = dataContext;
+            _database = redis.GetDatabase();
         }
 
-        public async Task UpdateBasketAsync(UserBasket basket)
+        public async Task<bool> DeleteBasketAsync(string basketId)
         {
-            _dataContext.Entry(basket).State = EntityState.Modified;
+            return await _database.KeyDeleteAsync(basketId);
+        }
 
-            
-            
+
+
+        public async Task<UserBasket> GetBasketAsync(string basketId)
+
+        {
+            var data = await _database.StringGetAsync(basketId);
+
+            if (data.IsNullOrEmpty)
+                return null;
+
+            return JsonSerializer.Deserialize<UserBasket>(data);
+
 
         }
-       
 
-        
+        public async Task<UserBasket> UpdateBasketAsync(UserBasket basket)
+        {
+            var created = await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));
 
+            if (!created)
+                return null;
 
+            return await GetBasketAsync(basket.Id);
 
-        //public async Task<UserBasket> GetBasketAsync(string basketId)
-        //{
-        //    var data = await _dataContext.StringGetAsync(basketId);
-
-        //    if (data.IsNullOrEmpty)
-        //        return null;
-
-        //    return JsonSerializer.Deserialize<UserBasket>(data);
-            
-            
-        //}
-
-        //public async Task<UserBasket> UpdateBasketAsync(UserBasket basket)
-        //{
-        //    var created = await _dataContext.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));
-
-        //    if (!created)
-        //        return null;
-
-        //    return await GetBasketAsync(basket.Id);
-
-        //}
+        }
     }
 }

@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230921130708_UpdatedBasketConfig")]
+    partial class UpdatedBasketConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,46 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Core.Entities.BasketItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserBasketId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserBasketId");
+
+                    b.ToTable("BasketItem");
+                });
 
             modelBuilder.Entity("Core.Entities.Identity.AppUser", b =>
                 {
@@ -107,6 +149,31 @@ namespace Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "0f3201bf-f66c-44c2-b137-44901efa0f60",
+                            AccessFailedCount = 0,
+                            City = "TestCity",
+                            ConcurrencyStamp = "82d2ff22-1ee8-4efe-9624-73b6d44ae753",
+                            DisplayName = "Steve",
+                            Email = "steve@test.com",
+                            EmailConfirmed = false,
+                            FirstName = "Steve",
+                            LastName = "Stevenson",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "STEVE@TEST.COM",
+                            NormalizedUserName = "STEVE@TEST.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEM7lPSRnaXthqDOFjLvPbKrNJnfHUYmrjzRBi68cRw0uIFDCd+7Yc4tZ8z+mGt9zg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d8c1d6a7-d904-42de-95f7-4ab2f2b8d99f",
+                            State = "TestState",
+                            Street = "TestStreet",
+                            TwoFactorEnabled = false,
+                            UserName = "steve@test.com",
+                            ZipCode = "1111"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.OrderAggregate.DeliveryMethod", b =>
@@ -541,6 +608,16 @@ namespace Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Core.Entities.UserBasket", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserBaskets");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -672,6 +749,13 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Entities.BasketItem", b =>
+                {
+                    b.HasOne("Core.Entities.UserBasket", null)
+                        .WithMany("Items")
+                        .HasForeignKey("UserBasketId");
                 });
 
             modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>
@@ -833,6 +917,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("Core.Entities.UserBasket", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

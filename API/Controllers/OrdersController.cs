@@ -13,10 +13,10 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderRepository _orderService;
+        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
 
-        public OrdersController(IOrderRepository orderService, IMapper mapper)
+        public OrdersController(IOrderService orderService, IMapper mapper)
         {
 
             _orderService = orderService;
@@ -39,10 +39,11 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrderById(int OrderId)
+        public async Task<ActionResult<Order>> GetOrderById(int orderId)
         {
             var email = HttpContext.User.GetEmailFromPrinciple();
-            var order = await _orderService.GetFirstOrDefault(x => (x.Id == OrderId));
+
+            var order = await _orderService.GetOrderByIdAsync(orderId, email);
 
             if (order == null)
                 return NotFound("Problem at retrieving order");
@@ -57,7 +58,7 @@ namespace API.Controllers
         public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUser()
         {
             var email= HttpContext.User.GetEmailFromPrinciple();
-            var orders = await _orderService.GetAll(x => x.BuyerEmail == email);
+            var orders = await _orderService.GetOrdersForUserAsync(email);
 
             if (orders == null)
                 return BadRequest("Problem at retrieving orders");
@@ -67,17 +68,17 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteOrder(int OrderId)
+        public async Task<ActionResult> DeleteOrder(int orderId)
         {
-            var order = await _orderService.GetFirstOrDefault(x => x.Id == OrderId);
-            _orderService.Remove(order);
-            var orderAfterDelete = await _orderService.GetFirstOrDefault(x => x.Id == OrderId);
+            var email = HttpContext.User.GetEmailFromPrinciple();
 
-            if (orderAfterDelete == null)
-                return Ok();
 
-            else
-                return BadRequest("Error at deleting Order");
+            await _orderService.DeleteOrder(orderId, email);
+
+            return Ok();
+            
+
+           
 
         }
 
