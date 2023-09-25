@@ -39,32 +39,41 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrderById(int orderId)
+        public async Task<ActionResult<OrderToReturnDto>> GetOrderById(int orderId)
         {
             var email = HttpContext.User.GetEmailFromPrinciple();
 
-            var order = await _orderService.GetOrderByIdAsync(orderId, email);
+            var order = await _orderService.GetFirstOrDefault(x =>
+                    (x.BuyerEmail == email) &&
+                    (x.Id == orderId),
+                    includeProperties: "OrderItems,DeliveryMethod");
+            //var order = await _orderService.GetOrderByIdAsync(orderId, email);
 
             if (order == null)
                 return NotFound("Problem at retrieving order");
 
 
-            return Ok(order);
+            return Ok(_mapper.Map<OrderToReturnDto>(order));
 
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUser()
+        public async Task<ActionResult<IReadOnlyList<OrderToReturnDto>>> GetOrdersForUser()
         {
             var email= HttpContext.User.GetEmailFromPrinciple();
-            var orders = await _orderService.GetOrdersForUserAsync(email);
+
+
+
+            var orders = await _orderService.GetAll(x=> x.BuyerEmail==email,includeProperties: "OrderItems,DeliveryMethod");
+
+            //var orders = await _orderService.GetOrdersForUserAsync(email);
 
             if (orders == null)
                 return BadRequest("Problem at retrieving orders");
 
 
-            return Ok(orders);
+            return Ok(_mapper.Map<IReadOnlyList<OrderToReturnDto>>(orders));
         }
 
         [HttpDelete("{id}")]

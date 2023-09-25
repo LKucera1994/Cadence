@@ -22,6 +22,13 @@ namespace API.Helpers
             .ForMember(destination => destination.City, origin => origin.MapFrom(x => x.City))
             .ForMember(destination => destination.State, origin => origin.MapFrom(x => x.State));
 
+            CreateMap<Order, OrderToReturnDto>()
+                .ForMember(destination => destination.DeliveryMethod, origin => origin.MapFrom(x=> x.DeliveryMethod.ShortName))
+                .ForMember(destination => destination.ShippingPrice, origin => origin.MapFrom(x => x.DeliveryMethod.Price));
+            CreateMap<OrderItem, OrderItemDto>()
+                .ForMember(destination => destination.ProductId, origin => origin.MapFrom(s => s.ItemOrdered.ProductItemId))
+                .ForMember(destination => destination.ProductName, origin => origin.MapFrom(s => s.ItemOrdered.ProductName))
+                .ForMember(destination => destination.PhotoUrl, origin => origin.MapFrom(s => s.ItemOrdered.PictureUrl));
 
             CreateMap<AppUserDto, Address>();
             CreateMap<UserBasketDto, UserBasket>();

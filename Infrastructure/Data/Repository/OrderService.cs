@@ -11,20 +11,22 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
 {
-    public class OrderService : IOrderService
+    public class OrderService : Repository<Order>, IOrderService
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly DataContext _dataContext;
         internal DbSet<Order> _dbSet; 
 
-        public OrderService(IBasketRepository basketRepository,IUnitOfWork unitOfWork, DataContext dataContext)
+        public OrderService(IBasketRepository basketRepository,IUnitOfWork unitOfWork, DataContext dataContext) : base(dataContext)
         {
             _basketRepository = basketRepository;
             _unitOfWork = unitOfWork;
             _dataContext = dataContext;
             _dbSet = dataContext.Set<Order>();
         }
+
+        
 
         public async Task<IEnumerable<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
@@ -42,12 +44,7 @@ namespace Infrastructure.Data.Repository
             return await _dbSet.Include("OrderItems")
                 .Include("DeliveryMethod")
                 .FirstOrDefaultAsync(x => (x.Id == id) && (x.BuyerEmail == buyerEmail));
-                
 
-             
-
-            
-           
         
         }
 

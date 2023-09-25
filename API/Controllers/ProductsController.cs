@@ -31,6 +31,7 @@ namespace API.Controllers
                             productParams.SortOrder == "priceDesc" ? "priceDesc": 
                             "nameDesc";
 
+            // Get all products that match the filters that are defined in productParams
             var products = await _unitOfWork.Product.GetAll(x=> 
                                                             (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
                                                             (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId) &&
