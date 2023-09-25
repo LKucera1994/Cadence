@@ -15,6 +15,7 @@ namespace Infrastructure.Data.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext _dataContext;
+        private bool _disposed;
         
 
 
@@ -44,11 +45,22 @@ namespace Infrastructure.Data.Repository
         
 
         
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if(disposing)
+                {
+                    _dataContext.Dispose();
+                }
+            }
+        }
         
 
         public void Dispose()
         {
             _dataContext.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         

@@ -28,7 +28,7 @@ namespace Infrastructure.Data
             base.OnModelCreating(builder);
             
 
-            //Seeding the database 
+             
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new ProductTypeConfiguration());
             builder.ApplyConfiguration(new ProductBrandConfiguration());

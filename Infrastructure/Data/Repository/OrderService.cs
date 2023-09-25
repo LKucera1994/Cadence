@@ -28,13 +28,23 @@ namespace Infrastructure.Data.Repository
 
         public async Task<IEnumerable<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
-            return await _dbSet.Where(x => x.BuyerEmail == buyerEmail).ToListAsync();
+            
+
+            return await _dbSet.Where(x => x.BuyerEmail == buyerEmail)
+                .Include("OrderItems")
+                .Include("DeliveryMethod")
+                .ToListAsync();
         }
 
 
         public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
         {
-            return await _dbSet.FirstOrDefaultAsync(x => (x.Id == id) && (x.BuyerEmail == buyerEmail));
+            return await _dbSet.Include("OrderItems")
+                .Include("DeliveryMethod")
+                .FirstOrDefaultAsync(x => (x.Id == id) && (x.BuyerEmail == buyerEmail));
+                
+
+             
 
             
            
@@ -64,18 +74,13 @@ namespace Infrastructure.Data.Repository
             var subtotal = items.Sum(x => x.Price * x.Quantity);
             var order = new Order(buyerEmail, shippingAddress, deliveryMethod, items, subtotal);
 
+
             //save to db
 
+            _dataContext.Add(order);
+            await _dataContext.SaveChangesAsync();
+            await _unitOfWork.Save();
             
-            var OrderResult = await _dataContext.SaveChangesAsync();
-            var result = await _unitOfWork.Save();
-
-
-
-            if (result <= 0 || OrderResult <= 0)
-            {
-                return null;
-            }
 
             //delete Basket
             await _basketRepository.DeleteBasketAsync(basketId);
@@ -101,8 +106,8 @@ namespace Infrastructure.Data.Repository
 
             _dbSet.Remove(order);
 
-            var OrderResult = await _dataContext.SaveChangesAsync();
-            var result = await _unitOfWork.Save();
+            await _dataContext.SaveChangesAsync();
+            
 
 
 
