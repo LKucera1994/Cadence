@@ -15,8 +15,7 @@ namespace Infrastructure.Data.Repository.Interfaces
 
         Task <IEnumerable<T>> ApplyPagination(int skip, int take);
         Task<T> Add(T entity);
-
-        
+ 
 
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
