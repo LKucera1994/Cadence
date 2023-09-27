@@ -71,14 +71,16 @@ namespace API.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userManager.FindByEmailAsync(email);
 
-            
-            user.DisplayName = appUser.DisplayName; 
+            if(!string.IsNullOrEmpty(appUser.DisplayName))
+                user.DisplayName = appUser.DisplayName;
+
+
             user.FirstName = appUser.FirstName; 
             user.LastName = appUser.LastName; 
             user.Street = appUser.Street; 
             user.City = appUser.City; 
             user.State = appUser.State; 
-            user.ZipCode = appUser.ZipCode; 
+            user.Zipcode = appUser.Zipcode; 
 
             
 

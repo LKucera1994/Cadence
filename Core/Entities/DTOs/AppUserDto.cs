@@ -4,8 +4,8 @@ namespace Core.Entities.DTOs
 {
     public class AppUserDto
     {
-        [Required]
-        public string DisplayName { get; set; }
+        
+        public string? DisplayName { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -17,6 +17,6 @@ namespace Core.Entities.DTOs
         [Required]
         public string State { get; set; }
         [Required]
-        public string ZipCode { get; set; }
+        public string Zipcode { get; set; }
     }
 }

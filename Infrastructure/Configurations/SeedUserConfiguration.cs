@@ -29,7 +29,7 @@ namespace Infrastructure.Configurations
                 Street = "TestStreet",
                 State = "TestState",
                 City = "TestCity",
-                ZipCode = "1111"
+                Zipcode = "1111"
                 
 
 
