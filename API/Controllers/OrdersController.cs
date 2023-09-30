@@ -10,6 +10,7 @@ using System.Security.Claims;
 namespace API.Controllers
 {
     [Authorize]
+    [ApiController]
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
@@ -39,15 +40,15 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderToReturnDto>> GetOrderById(int orderId)
+        public async Task<ActionResult<OrderToReturnDto>> GetOrderById(int id)
         {
             var email = HttpContext.User.GetEmailFromPrinciple();
 
             var order = await _orderService.GetFirstOrDefault(x =>
                     (x.BuyerEmail == email) &&
-                    (x.Id == orderId),
+                    (x.Id == id),
                     includeProperties: "OrderItems,DeliveryMethod");
-            //var order = await _orderService.GetOrderByIdAsync(orderId, email);
+            
 
             if (order == null)
                 return NotFound("Problem at retrieving order");
@@ -77,12 +78,12 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteOrder(int orderId)
+        public async Task<ActionResult> DeleteOrder(int id)
         {
             var email = HttpContext.User.GetEmailFromPrinciple();
 
 
-            await _orderService.DeleteOrder(orderId, email);
+            await _orderService.DeleteOrder(id, email);
 
             return Ok();
             
