@@ -82,7 +82,8 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
     return ConnectionMultiplexer.Connect(configuration);
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddScoped(typeof(GenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(UserManager<AppUser>), typeof(UserManager<AppUser>));

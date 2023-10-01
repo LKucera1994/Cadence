@@ -14,10 +14,10 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderService _orderService;
+        private readonly IOrderRepository _orderService;
         private readonly IMapper _mapper;
 
-        public OrdersController(IOrderService orderService, IMapper mapper)
+        public OrdersController(IOrderRepository orderService, IMapper mapper)
         {
 
             _orderService = orderService;

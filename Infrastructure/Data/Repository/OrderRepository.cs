@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
 {
-    public class OrderService : Repository<Order>, IOrderService
+    public class OrderRepository : Repository<Order>, IOrderRepository
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly DataContext _dataContext;
         internal DbSet<Order> _dbSet; 
 
-        public OrderService(IBasketRepository basketRepository,IUnitOfWork unitOfWork, DataContext dataContext) : base(dataContext)
+        public OrderRepository(IBasketRepository basketRepository,IUnitOfWork unitOfWork, DataContext dataContext) : base(dataContext)
         {
             _basketRepository = basketRepository;
             _unitOfWork = unitOfWork;
