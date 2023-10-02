@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
 {
-    public class DeliveryMethodRepository: Repository<DeliveryMethod> , IDeliveryMethodRepository
+    public class DeliveryMethodRepository: GenericRepository<DeliveryMethod> , IDeliveryMethodRepository
     {
         private readonly DataContext dataContext;
         public DeliveryMethodRepository(DataContext dataContext) : base(dataContext)
@@ -16,9 +16,6 @@ namespace Infrastructure.Data.Repository
             this.dataContext = dataContext;
         }
 
-        public Task<DeliveryMethod> UpdateDeliveryMethodAsync(DeliveryMethod deliveryMethod)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

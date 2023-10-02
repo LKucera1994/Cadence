@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly DataContext _dataContext;
         internal DbSet<T> dbSet;
 
-        public Repository(DataContext dataContext)
+        public GenericRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
             this.dbSet = _dataContext.Set<T>();
@@ -86,6 +86,12 @@ namespace Infrastructure.Data.Repository
         public void RemoveRange(IEnumerable<T> entities)
         {
             dbSet.RemoveRange(entities);
+        }
+
+        public void Update(T entity)
+        {
+            dbSet.Attach(entity);
+            _dataContext.Entry(entity).State = EntityState.Modified;
         }
     }
 }

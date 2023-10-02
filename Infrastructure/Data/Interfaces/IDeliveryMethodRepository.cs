@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Interfaces
 {
-    public interface IDeliveryMethodRepository : IRepository<DeliveryMethod>
+    public interface IDeliveryMethodRepository : IGenericRepository<DeliveryMethod>
     {
-        Task<DeliveryMethod> UpdateDeliveryMethodAsync(DeliveryMethod deliveryMethod);
+        
 
     }
 }

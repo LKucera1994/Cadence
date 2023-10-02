@@ -8,13 +8,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Interfaces
 {
-    public interface IOrderRepository :IRepository<Order>
+    public interface IOrderRepository :IGenericRepository<Order>
     {
         Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethod, string basketId, Address shippingAddress);
-        Task<Order> UpdateOrderAsync(Order order);
-        Task<IEnumerable<Order>> GetOrdersForUserAsync(string buyerEmail);
-
-        Task<Order> GetOrderByIdAsync(int id, string buyerEmail);
+        
         Task DeleteOrder(int orderId, string buyerEmail);
         Task<IEnumerable<DeliveryMethod>> GetDeliveryMethodsAsync();
     }

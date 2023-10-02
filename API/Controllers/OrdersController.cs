@@ -68,7 +68,7 @@ namespace API.Controllers
 
             var orders = await _orderService.GetAll(x=> x.BuyerEmail==email,includeProperties: "OrderItems,DeliveryMethod");
 
-            //var orders = await _orderService.GetOrdersForUserAsync(email);
+            
 
             if (orders == null)
                 return BadRequest("Problem at retrieving orders");

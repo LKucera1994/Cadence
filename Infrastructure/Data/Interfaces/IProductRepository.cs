@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository.Interfaces
 {
-    public interface IProductRepository: IRepository<Product>
+    public interface IProductRepository: IGenericRepository<Product>
     {
         Task Update(Product product); 
     }

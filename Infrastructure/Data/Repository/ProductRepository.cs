@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
 {
-    public class ProductRepository : Repository<Product>, IProductRepository
+    public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         private readonly DataContext dataContext;
         public ProductRepository(DataContext dataContext) : base(dataContext)

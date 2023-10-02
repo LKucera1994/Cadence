@@ -8,24 +8,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
 {
-    public class ProductBrandRepository : Repository<ProductBrand>, IProductBrandRepository
+    public class ProductBrandRepository : GenericRepository<ProductBrand>, IProductBrandRepository
     {
         private readonly DataContext dataContext;
         public ProductBrandRepository(DataContext dataContext) : base(dataContext)
         {
             this.dataContext = dataContext;
         }
-        public async Task Update(ProductBrand productBrand)
-        {
-            var productBrandFromDb = dataContext.ProductBrands.FirstOrDefault(x => x.Id == productBrand.Id);
-
-            if (productBrandFromDb != null)
-            {
-
-                productBrandFromDb.Name = productBrand.Name;
-
-
-            }
-        }
+        
     }
 }

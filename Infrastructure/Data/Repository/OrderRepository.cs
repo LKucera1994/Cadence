@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
 {
-    public class OrderRepository : Repository<Order>, IOrderRepository
+    public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -23,30 +23,12 @@ namespace Infrastructure.Data.Repository
             _basketRepository = basketRepository;
             _unitOfWork = unitOfWork;
             _dataContext = dataContext;
+            
             _dbSet = dataContext.Set<Order>();
         }
 
         
 
-        public async Task<IEnumerable<Order>> GetOrdersForUserAsync(string buyerEmail)
-        {
-            
-
-            return await _dbSet.Where(x => x.BuyerEmail == buyerEmail)
-                .Include("OrderItems")
-                .Include("DeliveryMethod")
-                .ToListAsync();
-        }
-
-
-        public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
-        {
-            return await _dbSet.Include("OrderItems")
-                .Include("DeliveryMethod")
-                .FirstOrDefaultAsync(x => (x.Id == id) && (x.BuyerEmail == buyerEmail));
-
-        
-        }
 
         public async Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethodId, string basketId, Address shippingAddress)
         {
@@ -58,6 +40,7 @@ namespace Infrastructure.Data.Repository
             var items = new List<OrderItem>();
             foreach (var item in basket.Items)
             {
+                
                 var productItem = await _unitOfWork.Product.GetFirstOrDefault(x => x.Id == item.Id);
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.PhotoUrl);
                 var orderItem = new OrderItem(itemOrdered, productItem.Price, item.Quantity);
@@ -65,24 +48,40 @@ namespace Infrastructure.Data.Repository
             }
 
 
-            //Create Order 
+            // check if order already exists. if not -> Create Order 
 
             var deliveryMethod = await _unitOfWork.DeliveryMethod.GetFirstOrDefault(x => x.Id == deliveryMethodId);
             var subtotal = items.Sum(x => x.Price * x.Quantity);
-            var order = new Order(buyerEmail, shippingAddress, deliveryMethod, items, subtotal);
 
+            var order = await _dataContext.Order.FirstOrDefaultAsync(x => x.PaymentIntentId == basket.PaymentIntentId);
+
+            if(order != null)
+            {
+                // update information that could change between payment intent confirmation and payment confirmation
+
+                order.ShipToAddress = shippingAddress;
+                order.DeliveryMethod = deliveryMethod;
+                order.Subtotal = subtotal;
+                Update(order);
+
+              
+            }
+
+            else
+            {
+                order = new Order(buyerEmail, shippingAddress, deliveryMethod, items, subtotal, basket.PaymentIntentId);
+                _dataContext.Add(order);
+
+               
+            }
 
             //save to db
 
-            _dataContext.Add(order);
             await _dataContext.SaveChangesAsync();
             await _unitOfWork.Save();
-            
-
-            //delete Basket
-            await _basketRepository.DeleteBasketAsync(basketId);
 
             return order;
+
 
 
         }
@@ -92,16 +91,15 @@ namespace Infrastructure.Data.Repository
             return await _unitOfWork.DeliveryMethod.GetAll(x => true);
         }
 
-        public Task<Order> UpdateOrderAsync(Order order)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task DeleteOrder(int orderId, string buyerEmail)
         {
-            var order = await this.GetOrderByIdAsync(orderId, buyerEmail);
+            var order = await _dataContext.Order.FirstOrDefaultAsync(x => x.Id == orderId && x.BuyerEmail == buyerEmail);
 
-            _dbSet.Remove(order);
+            _dataContext.Order.Remove(order);
+
+            
 
             await _dataContext.SaveChangesAsync();
             

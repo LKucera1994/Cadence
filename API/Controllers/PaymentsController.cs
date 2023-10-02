@@ -22,7 +22,12 @@ namespace API.Controllers
         [HttpPost("{basketId}")]
         public async Task<ActionResult<UserBasket>> CreateOrUpdatePaymentIntent(string basketId)
         {
-            return await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+            var basket =  await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+
+            if (basket == null)
+                return BadRequest("Problem with Basket");
+
+            return Ok(basket);
         }
     }
 }
