@@ -73,7 +73,7 @@ x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+//builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
@@ -82,7 +82,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
     return ConnectionMultiplexer.Connect(configuration);
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddScoped(typeof(Infrastructure.Data.GenericRepository<>), typeof(Infrastructure.Data.GenericRepository<>));

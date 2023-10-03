@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Infrastructure.Data.Interfaces;
 using Infrastructure.Data.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -13,15 +14,18 @@ namespace Infrastructure.Services
 {
     public class PaymentService : IPaymentService
     {
-        private readonly IBasketRepository _basketRepository;
+        //private readonly IBasketRepository _basketRepository;
         private readonly IUnitOfWork _unitOfWork;
+        //private readonly IOrderRepository _orderRepository;
         private readonly IConfiguration _config; 
         
 
-        public PaymentService(IBasketRepository basketRepository, IUnitOfWork unitOfWork, IConfiguration config)
+        public PaymentService(/*IBasketRepository basketRepository,*/ IUnitOfWork unitOfWork,/* IOrderRepository orderRepository,*/
+            IConfiguration config)
         {
-            _basketRepository = basketRepository;
+            //_basketRepository = basketRepository;
             _unitOfWork = unitOfWork;
+            //_orderRepository = orderRepository;
             _config = config;
             
         }
@@ -29,7 +33,8 @@ namespace Infrastructure.Services
         public async Task<UserBasket> CreateOrUpdatePaymentIntent(string basketId)
         {
             StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
-            var basket = await _basketRepository.GetBasketAsync(basketId);
+            var basket = await _unitOfWork.Basket.GetBasketAsync(basketId);
+            //var basket = await _basketRepository.GetBasketAsync(basketId);
 
             if (basket == null)
                 return null;
@@ -83,10 +88,37 @@ namespace Infrastructure.Services
                 
             }
 
-            await _basketRepository.UpdateBasketAsync(basket);
+            await _unitOfWork.Basket.UpdateBasketAsync(basket);
+            await _unitOfWork.Save();
+            //await _basketRepository.UpdateBasketAsync(basket);
 
             return basket;
 
+        }
+
+        public async Task<Order> UpdateOrderPaymentFailed(string paymentIntentId)
+        {
+            var order = await _unitOfWork.Order.GetFirstOrDefault(x=> x.PaymentIntentId == paymentIntentId);
+
+            if (order == null)
+                return null;
+
+            order.Status = OrderStatus.PaymentFailed;
+            await _unitOfWork.Save();
+            return order;
+            
+        }
+
+        public async Task<Order> UpdateOrderPaymentSucceeded(string paymentIntentId)
+        {
+            var order = await _unitOfWork.Order.GetFirstOrDefault(x => x.PaymentIntentId == paymentIntentId);
+
+            if (order == null)
+                return null;
+
+            order.Status = OrderStatus.PaymentReceived;
+            await _unitOfWork.Save();
+            return order;
         }
     }
 }

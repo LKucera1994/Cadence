@@ -3,6 +3,7 @@ using AutoMapper;
 using Core.Entities.DTOs;
 using Core.Entities.OrderAggregate;
 using Infrastructure.Data.Interfaces;
+using Infrastructure.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,13 +15,15 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderRepository _orderService;
+        //private readonly IOrderRepository _orderService;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public OrdersController(IOrderRepository orderService, IMapper mapper)
+        public OrdersController(/*IOrderRepository orderService*/ IUnitOfWork unitOfWork , IMapper mapper)
         {
 
-            _orderService = orderService;
+            //_orderService = orderService;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -31,7 +34,8 @@ namespace API.Controllers
             var email = HttpContext.User.GetEmailFromPrinciple();
 
             var address = _mapper.Map<AppUserDto, Address>(orderDto.ShipToAddress);
-            var order = await _orderService.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address);
+           
+            var order = await _unitOfWork.Order.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address);
 
             if (order == null)
                 return BadRequest("Problem at creating order");
@@ -44,7 +48,7 @@ namespace API.Controllers
         {
             var email = HttpContext.User.GetEmailFromPrinciple();
 
-            var order = await _orderService.GetFirstOrDefault(x =>
+            var order = await _unitOfWork.Order.GetFirstOrDefault(x =>
                     (x.BuyerEmail == email) &&
                     (x.Id == id),
                     includeProperties: "OrderItems,DeliveryMethod");
@@ -66,7 +70,7 @@ namespace API.Controllers
 
 
 
-            var orders = await _orderService.GetAll(x=> x.BuyerEmail==email,includeProperties: "OrderItems,DeliveryMethod");
+            var orders = await _unitOfWork.Order.GetAll(x=> x.BuyerEmail==email,includeProperties: "OrderItems,DeliveryMethod");
 
             
 
@@ -83,7 +87,7 @@ namespace API.Controllers
             var email = HttpContext.User.GetEmailFromPrinciple();
 
 
-            await _orderService.DeleteOrder(id, email);
+            await _unitOfWork.Order.DeleteOrder(id, email);
 
             return Ok();
             
@@ -97,7 +101,7 @@ namespace API.Controllers
 
         public async Task<ActionResult<IEnumerable<DeliveryMethod>>> GetDeliveryMethods()
         {
-            var deliveryMethods = await _orderService.GetDeliveryMethodsAsync();
+            var deliveryMethods = await _unitOfWork.Order.GetDeliveryMethodsAsync();
 
             if(deliveryMethods == null)
             {

@@ -1,8 +1,10 @@
 ﻿using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Infrastructure.Data.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace API.Controllers
 {
@@ -11,11 +13,14 @@ namespace API.Controllers
 
     public class PaymentsController : ControllerBase
     {
+        private const string WhSecret = "whsec_279265c67e53df5b89e84afbe3dccebabab09bcaffe8c1c1c67e21fc5a009454";
         private readonly IPaymentService _paymentService;
+        private readonly ILogger<PaymentsController> _logger;
 
-        public PaymentsController(IPaymentService paymentService)
+        public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger )
         {
             _paymentService = paymentService;
+            _logger = logger;
         }
 
         [Authorize]
@@ -29,5 +34,41 @@ namespace API.Controllers
 
             return Ok(basket);
         }
+
+        [AllowAnonymous]
+        [HttpPost("webhook")]
+
+        public async Task<ActionResult> StripeWebhook()
+        {
+            var json = await new StreamReader(Request.Body).ReadToEndAsync();
+
+            var stripeEvent = EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WhSecret, throwOnApiVersionMismatch: false);
+
+            PaymentIntent paymentIntent;
+            Order order;
+
+            switch (stripeEvent.Type)
+            {
+                case "payment_intent.succeeded":
+                    paymentIntent = (PaymentIntent)stripeEvent.Data.Object;
+                    _logger.LogInformation("Payment succeeded: ", paymentIntent.Id);
+
+                    order = await _paymentService.UpdateOrderPaymentSucceeded(paymentIntent.Id);
+                    _logger.LogInformation("Order updated to payment received: " ,order.Id);
+                    break;
+
+                case "payment_intent.payment_failed":
+                    paymentIntent = (PaymentIntent)stripeEvent.Data.Object;
+                    _logger.LogInformation("Payment failed: ", paymentIntent.Id);
+
+                    order = await _paymentService.UpdateOrderPaymentFailed(paymentIntent.Id);
+                    _logger.LogInformation("Order updated to payment failed: ", order.Id);
+                    break;
+                
+            }
+
+            return new EmptyResult();
+        }
+        
     }
 }

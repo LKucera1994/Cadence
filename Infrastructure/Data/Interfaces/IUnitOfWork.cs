@@ -15,6 +15,8 @@ namespace Infrastructure.Data.Repository.Interfaces
         IProductTypeRepository ProductType { get; }
       
         IDeliveryMethodRepository DeliveryMethod { get; }
+        IBasketRepository Basket { get; }
+        IOrderRepository Order { get; }
         
         
 
