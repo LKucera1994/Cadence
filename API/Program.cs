@@ -82,6 +82,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
     return ConnectionMultiplexer.Connect(configuration);
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 

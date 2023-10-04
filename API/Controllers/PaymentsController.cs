@@ -13,14 +13,17 @@ namespace API.Controllers
 
     public class PaymentsController : ControllerBase
     {
-        private const string WhSecret = "whsec_279265c67e53df5b89e84afbe3dccebabab09bcaffe8c1c1c67e21fc5a009454";
+        
         private readonly IPaymentService _paymentService;
         private readonly ILogger<PaymentsController> _logger;
-
-        public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger )
+        private readonly IConfiguration _config;
+        private string WhSecret; 
+        public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger, IConfiguration config)
         {
             _paymentService = paymentService;
             _logger = logger;
+            _config = config;
+            WhSecret = _config["StripeSettings:WhSecret"];
         }
 
         [Authorize]
