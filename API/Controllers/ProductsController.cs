@@ -23,6 +23,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        [CachedAttributes(600)]
         [HttpGet]
         public  async Task<ActionResult<Pagination<IEnumerable<ProductDTO>>>> GetAllProducts([FromQuery]ProductParams productParams)
         {
@@ -58,22 +59,14 @@ namespace API.Controllers
             //Pagination
             int productCount = products.Count();
             products = products.Skip(productParams.PageSize*(productParams.PageIndex-1)).Take(productParams.PageSize);
-            
-
-            
-            
+                        
             //Mapping to DTO
             var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
             return Ok(new Pagination<ProductDTO>(productParams.PageIndex, productParams.PageSize, productCount, mappedProducts));
 
-
-                
-                
-            
-            
-
         }
 
+        [CachedAttributes(600)]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
@@ -88,6 +81,7 @@ namespace API.Controllers
             
         }
 
+        [CachedAttributes(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
@@ -95,6 +89,7 @@ namespace API.Controllers
             return Ok(brands) ;
         }
 
+        [CachedAttributes(600)]
         [HttpGet("types")]
         public async Task<ActionResult<List<ProductType>>> GetProductType()
         {
