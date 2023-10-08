@@ -45,7 +45,6 @@ namespace Infrastructure.Configurations
                     Id = 6,
                     Name = "Pavic Parts"
                 }
-
             );
         }
     }

@@ -15,26 +15,20 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        //private readonly IOrderRepository _orderService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public OrdersController(/*IOrderRepository orderService*/ IUnitOfWork unitOfWork , IMapper mapper)
+        public OrdersController(IUnitOfWork unitOfWork , IMapper mapper)
         {
-
-            //_orderService = orderService;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
 
         [HttpPost]
         public async Task<ActionResult<Order>> CreateOrder([FromBody] OrderDto orderDto)
         {
             var email = HttpContext.User.GetEmailFromPrinciple();
-
-            var address = _mapper.Map<AppUserDto, Address>(orderDto.ShipToAddress);
-           
+            var address = _mapper.Map<AppUserDto, Address>(orderDto.ShipToAddress);          
             var order = await _unitOfWork.Order.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address);
 
             if (order == null)
@@ -53,30 +47,20 @@ namespace API.Controllers
                     (x.Id == id),
                     includeProperties: "OrderItems,DeliveryMethod");
             
-
             if (order == null)
                 return NotFound("Problem at retrieving order");
 
-
             return Ok(_mapper.Map<OrderToReturnDto>(order));
-
         }
-
 
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<OrderToReturnDto>>> GetOrdersForUser()
         {
             var email= HttpContext.User.GetEmailFromPrinciple();
-
-
-
-            var orders = await _unitOfWork.Order.GetAll(x=> x.BuyerEmail==email,includeProperties: "OrderItems,DeliveryMethod");
-
-            
+            var orders = await _unitOfWork.Order.GetAll(x=> x.BuyerEmail == email,includeProperties: "OrderItems,DeliveryMethod");
 
             if (orders == null)
                 return BadRequest("Problem at retrieving orders");
-
 
             return Ok(_mapper.Map<IReadOnlyList<OrderToReturnDto>>(orders));
         }
@@ -85,24 +69,16 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteOrder(int id)
         {
             var email = HttpContext.User.GetEmailFromPrinciple();
-
-
             await _unitOfWork.Order.DeleteOrder(id, email);
 
             return Ok();
-            
-
-           
-
         }
 
         [HttpGet("deliveryMethods")]
         [AllowAnonymous]
-
         public async Task<ActionResult<IEnumerable<DeliveryMethod>>> GetDeliveryMethods()
         {
             var deliveryMethods = await _unitOfWork.Order.GetDeliveryMethodsAsync();
-
             if(deliveryMethods == null)
             {
                 return BadRequest("Error at retrieving delivery methods");
@@ -110,11 +86,6 @@ namespace API.Controllers
 
             return Ok(deliveryMethods);
         }
-
-
-
-        
-
-        
+     
     }
 }

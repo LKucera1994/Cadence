@@ -26,24 +26,14 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
-
-             
+                      
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new ProductTypeConfiguration());
-            builder.ApplyConfiguration(new ProductBrandConfiguration());
-            //builder.ApplyConfiguration(new SeedUserConfiguration());
+            builder.ApplyConfiguration(new ProductBrandConfiguration());         
             builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new OrderItemConfiguration());
             builder.ApplyConfiguration(new DeliveryMethodConfiguration());
-
-            
-
-            
-
-
-
-            
+        
         }
     }
 }

@@ -66,8 +66,7 @@ namespace API.Controllers
 
                     order = await _paymentService.UpdateOrderPaymentFailed(paymentIntent.Id);
                     _logger.LogInformation("Order updated to payment failed: ", order.Id);
-                    break;
-                
+                    break;        
             }
 
             return new EmptyResult();

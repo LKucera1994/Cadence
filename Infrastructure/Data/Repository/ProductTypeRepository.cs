@@ -14,7 +14,6 @@ namespace Infrastructure.Data.Repository
         public ProductTypeRepository(DataContext dataContext) : base(dataContext)
         {
             this.dataContext = dataContext;
-        }
-        
+        }      
     }
 }

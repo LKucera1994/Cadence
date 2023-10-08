@@ -13,8 +13,6 @@ namespace API.Helpers
             _config = config;
         }
 
-        
-
         public string Resolve(OrderItem source, OrderItemDto destination, string destMember, ResolutionContext context)
         {
             if (!string.IsNullOrEmpty(source.ItemOrdered.PictureUrl))

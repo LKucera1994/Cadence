@@ -25,7 +25,6 @@ namespace Infrastructure.Data.Repository
             if(productFromDb != null)
             {
                 
-
                 productFromDb.Name = product.Name;
                 productFromDb.Price = product.Price;
                 productFromDb.ProductType = product.ProductType;
@@ -40,7 +39,6 @@ namespace Infrastructure.Data.Repository
 
                 }
  
-
             }
 
         }

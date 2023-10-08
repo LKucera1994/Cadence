@@ -74,45 +74,35 @@ namespace API.Controllers
             if(!string.IsNullOrEmpty(appUser.DisplayName))
                 user.DisplayName = appUser.DisplayName;
 
-
             user.FirstName = appUser.FirstName; 
             user.LastName = appUser.LastName; 
             user.Street = appUser.Street; 
             user.City = appUser.City; 
             user.State = appUser.State; 
             user.Zipcode = appUser.Zipcode; 
-
-            
-
+         
             var result = await _userManager.UpdateAsync(user);
-
 
             if(result.Succeeded)
                 return Ok(_mapper.Map<AppUser,AppUserDto>(user));
 
             else
                 return BadRequest("Error at updating user");
-
-
-            
+         
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
-        {
-            //To Do change findbyName to findbyEmail
-            var user = await _userManager.FindByNameAsync(loginDto.Email);
+        {         
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
-            if(user == null)
+            if (user == null)
                 return Unauthorized();
-
             
-
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
             if (!result.Succeeded)
                 return Unauthorized();
-
 
             return new UserDto
             {
@@ -121,7 +111,6 @@ namespace API.Controllers
                 DisplayName = user.DisplayName
 
             };
-
         }
 
         [HttpPost("register")]
@@ -143,7 +132,6 @@ namespace API.Controllers
 
             if (!result.Succeeded)
                 return BadRequest();
-
 
             return new UserDto
             {
@@ -169,10 +157,6 @@ namespace API.Controllers
             else
                 return BadRequest("Error at deleting user");
 
-
         }
-
-        
-
     }
 }

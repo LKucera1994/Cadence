@@ -13,29 +13,22 @@ using System.Threading.Tasks;
 namespace Infrastructure.Services
 {
     public class PaymentService : IPaymentService
-    {
-        //private readonly IBasketRepository _basketRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        //private readonly IOrderRepository _orderRepository;
+    {      
+        private readonly IUnitOfWork _unitOfWork;      
         private readonly IConfiguration _config; 
         
 
-        public PaymentService(/*IBasketRepository basketRepository,*/ IUnitOfWork unitOfWork,/* IOrderRepository orderRepository,*/
-            IConfiguration config)
-        {
-            //_basketRepository = basketRepository;
-            _unitOfWork = unitOfWork;
-            //_orderRepository = orderRepository;
-            _config = config;
-            
+        public PaymentService( IUnitOfWork unitOfWork, IConfiguration config)
+        { 
+            _unitOfWork = unitOfWork;            
+            _config = config;           
         }
 
         public async Task<UserBasket> CreateOrUpdatePaymentIntent(string basketId)
         {
             StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
             var basket = await _unitOfWork.Basket.GetBasketAsync(basketId);
-            //var basket = await _basketRepository.GetBasketAsync(basketId);
-
+            
             if (basket == null)
                 return null;
 
@@ -44,7 +37,6 @@ namespace Infrastructure.Services
             if(basket.DeliveryMethodId.HasValue)
             {
                 var deliveryMethod = await _unitOfWork.DeliveryMethod.GetFirstOrDefault(x => x.Id == basket.DeliveryMethodId);
-
                 shippingPrice = deliveryMethod.Price;
             }
 
@@ -64,8 +56,7 @@ namespace Infrastructure.Services
             if(string.IsNullOrEmpty(basket.PaymentIntentId))
             {
                 var options = new PaymentIntentCreateOptions
-                {
-                    //stripe does not take decimal -> convert to long
+                {                    
                     Amount = (long)basket.Items.Sum(i => i.Quantity * (i.Price * 100)) + (long)shippingPrice * 100,
                     Currency = "eur",
                     PaymentMethodTypes = new List<string> { "card" }
@@ -89,8 +80,7 @@ namespace Infrastructure.Services
             }
 
             await _unitOfWork.Basket.UpdateBasketAsync(basket);
-            await _unitOfWork.Save();
-            //await _basketRepository.UpdateBasketAsync(basket);
+            await _unitOfWork.Save();           
 
             return basket;
 

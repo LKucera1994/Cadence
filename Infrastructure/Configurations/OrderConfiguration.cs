@@ -19,7 +19,6 @@ namespace Infrastructure.Configurations
             });
 
             builder.Navigation(x => x.ShipToAddress).IsRequired();
-
             builder.Property(s => s.Status)
                 .HasConversion(
                 x=> x.ToString(),

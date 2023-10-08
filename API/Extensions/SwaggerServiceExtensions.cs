@@ -21,7 +21,6 @@ namespace API.Extensions
                         Type = ReferenceType.SecurityScheme,
                         Id = "Bearer"
                     }
-
                 };
 
                 x.AddSecurityDefinition("Bearer", securitySchema);
@@ -31,25 +30,17 @@ namespace API.Extensions
                         securitySchema, new[] {"Bearer"}
                     }
                 };
-
                 x.AddSecurityRequirement(securityRequirement);
             });
             return services;
-
-            
+          
         }
 
         public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app)
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-
             return app;
-
         }
-
-
-
-
     }
 }

@@ -23,9 +23,5 @@ namespace Core.Entities
         public int ProductBrandId { get; set; }
         [ForeignKey(nameof(ProductBrandId))]
         public ProductBrand ProductBrand { get; set; }
-        
-        
-
-
     }
 }

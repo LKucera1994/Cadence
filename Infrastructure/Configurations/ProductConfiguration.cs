@@ -23,7 +23,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/sb-ang1.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 1
-
                 },
 
                 new Product
@@ -35,7 +34,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/sb-ang2.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 1
-
                 },
                 new Product
                 {
@@ -46,7 +44,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/sb-core1.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 2
-
                 },
                 new Product
                 {
@@ -57,7 +54,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/sb-core2.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 2
-
                 },
                 new Product
                 {
@@ -68,7 +64,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/sb-react1.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 4
-
                 },
                 new Product
                 {
@@ -79,7 +74,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/sb-ts1.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 5
-
                 },
                 new Product
                 {
@@ -90,7 +84,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/hat-core1.jpg",
                     ProductTypeId = 2,
                     ProductBrandId = 2
-
                 },
                 new Product
                 {
@@ -101,7 +94,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/hat-react1.jpg",
                     ProductTypeId = 2,
                     ProductBrandId = 4
-
                 },
                 new Product
                 {
@@ -112,7 +104,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/hat-react2.jpg",
                     ProductTypeId = 2,
                     ProductBrandId = 4
-
                 },
                 new Product
                 {
@@ -123,7 +114,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/glove-code1.jpg",
                     ProductTypeId = 4,
                     ProductBrandId = 3
-
                 },
                 new Product
                 {
@@ -134,7 +124,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/glove-code2.jpg",
                     ProductTypeId = 4,
                     ProductBrandId = 3
-
                 },
                 new Product
                 {
@@ -145,7 +134,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/glove-react1.jpg",
                     ProductTypeId = 4,
                     ProductBrandId = 4
-
                 },
                 new Product
                 {
@@ -156,7 +144,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/glove-react2.jpg",
                     ProductTypeId = 4,
                     ProductBrandId = 4
-
                 },
                 new Product
                 {
@@ -167,7 +154,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/boot-redis1.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 6
-
                 },
                 new Product
                 {
@@ -178,7 +164,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/boot-core2.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 2
-
                 },
                 new Product
                 {
@@ -189,7 +174,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/boot-core1.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 2
-
                 },
                 new Product
                 {
@@ -200,7 +184,6 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/boot-ang2.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 1
-
                 },
                 new Product
                 {
@@ -211,11 +194,7 @@ namespace Infrastructure.Configurations
                     PhotoUrl = "images/products/boot-ang1.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 1
-
                 }
-
-
-
 
                 );
         }

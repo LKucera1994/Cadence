@@ -12,12 +12,9 @@ namespace Infrastructure.Data.Repository.Interfaces
     {
         Task<T> GetFirstOrDefault(Expression<Func<T, bool>> predicate, string? includeProperties = null);
         Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? predicate = null, string? includeProperties = null);
-
         Task <IEnumerable<T>> ApplyPagination(int skip, int take);
         Task<T> Add(T entity);
-
         void Update(T entity);
- 
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
     }

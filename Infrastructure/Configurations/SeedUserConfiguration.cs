@@ -16,9 +16,7 @@ namespace Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             var appUser = new AppUser
-             {
-
-                
+             {     
                 DisplayName = "Steve",
                 Email = "steve@test.com",
                 UserName = "steve@test.com",
@@ -29,36 +27,12 @@ namespace Infrastructure.Configurations
                 Street = "TestStreet",
                 State = "TestState",
                 City = "TestCity",
-                Zipcode = "1111"
-                
-
-
-
+                Zipcode = "1111"               
             };
 
             var passwordHasher = new PasswordHasher<AppUser>();
-
             appUser.PasswordHash = passwordHasher.HashPassword(appUser, "TestPa$$W0rd");
-
-
             builder.HasData(appUser);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-
+        }    
     }
-
 }

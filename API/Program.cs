@@ -38,10 +38,6 @@ builder.Services.AddIdentityCore<AppUser>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     
-
-    //options.Lockout.AllowedForNewUsers = true;
-    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    //options.Lockout.MaxFailedAccessAttempts = 3;
 })  
     .AddEntityFrameworkStores<DataContext>()
     .AddSignInManager<SignInManager<AppUser>>();
@@ -73,8 +69,6 @@ x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//builder.Services.AddScoped<IBasketRepository, BasketRepository>();
-
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 {
@@ -83,7 +77,6 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
-//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddScoped(typeof(Infrastructure.Data.GenericRepository<>), typeof(Infrastructure.Data.GenericRepository<>));
@@ -110,14 +103,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 
-
-
-
-
 var app = builder.Build();
 
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerDocumentation();  
@@ -127,14 +115,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseCors("CorsPolicy");
 
-
-app.UseAuthentication();
-    
-
-
+app.UseAuthentication();    
 app.UseAuthorization();
 
 using var scope = app.Services.CreateScope();

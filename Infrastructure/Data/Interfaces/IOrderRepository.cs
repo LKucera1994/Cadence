@@ -10,8 +10,7 @@ namespace Infrastructure.Data.Interfaces
 {
     public interface IOrderRepository :IGenericRepository<Order>
     {
-        Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethod, string basketId, Address shippingAddress);
-        
+        Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethod, string basketId, Address shippingAddress);       
         Task DeleteOrder(int orderId, string buyerEmail);
         Task<IEnumerable<DeliveryMethod>> GetDeliveryMethodsAsync();
     }

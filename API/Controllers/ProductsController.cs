@@ -34,10 +34,10 @@ namespace API.Controllers
 
             // Get all products that match the filters that are defined in productParams
             var products = await _unitOfWork.Product.GetAll(x=> 
-                                                            (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
-                                                            (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId) &&
-                                                            (!productParams.TypeId.HasValue || x.ProductTypeId == productParams.TypeId), 
-                                                            includeProperties: "ProductBrand,ProductType");
+                (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
+                (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId) &&
+                (!productParams.TypeId.HasValue || x.ProductTypeId == productParams.TypeId), 
+                includeProperties: "ProductBrand,ProductType");
 
             //sorting
             switch (sortParam)
@@ -77,8 +77,7 @@ namespace API.Controllers
                 return _mapper.Map<Product,ProductDTO>(product);
             }
 
-            return NotFound();
-            
+            return NotFound();       
         }
 
         [CachedAttributes(600)]
@@ -96,9 +95,6 @@ namespace API.Controllers
             var types = await _unitOfWork.ProductType.GetAll();
             return Ok(types);
         }
-
-
-
 
     }
 }

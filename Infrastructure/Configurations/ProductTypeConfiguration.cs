@@ -19,34 +19,24 @@ namespace Infrastructure.Configurations
                 {
                     Id = 1,
                     Name = "Bikes"
-
                 },
 
                 new ProductType
                 {
                     Id = 2,
                     Name = "Hats"
-
                 },
                 new ProductType
                 {
                     Id = 3,
                     Name = "Boots"
-
                 },
                 new ProductType
                 {
                     Id = 4,
                     Name = "Gloves"
-
                 }
-
-
-
-
-
-            ) ;
-            
+            );      
         }
     }
 }

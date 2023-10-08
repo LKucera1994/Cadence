@@ -32,25 +32,15 @@ namespace Infrastructure.Data.Repository
             DeliveryMethod = new DeliveryMethodRepository(_dataContext);
             Basket = new BasketRepository(redis: _database);
             Order = new OrderRepository(Basket, _dataContext);
-            
-            
-            
-            
-            
 
         }
-
         
-
         public IProductRepository Product { get; set; }
         public IProductBrandRepository ProductBrand { get; set; }
         public IProductTypeRepository ProductType { get; set; }
         public IDeliveryMethodRepository DeliveryMethod { get; set; }
         public IOrderRepository Order { get; set; }
-
         public IBasketRepository Basket { get; set; }
-
-        
 
         protected virtual void Dispose(bool disposing)
         {
@@ -63,22 +53,16 @@ namespace Infrastructure.Data.Repository
             }
         }
         
-
         public void Dispose()
         {
             _dataContext.Dispose();
             GC.SuppressFinalize(this);
         }
 
-        
-
-        
-
         public async Task<int> Save()
         {
             return await _dataContext.SaveChangesAsync();
-        }
-        
+        }      
 
     }
 }

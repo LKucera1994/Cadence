@@ -30,12 +30,10 @@ namespace Core.Entities.OrderAggregate
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public Address ShipToAddress { get; set; }
         public DeliveryMethod DeliveryMethod { get; set; }
-
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
         public decimal Subtotal { get; set; }
         public OrderStatus Status { get; set; }
         public string PaymentIntentId { get; set; } = string.Empty;
-
         public decimal GetTotal()
         {
             return Subtotal + DeliveryMethod.Price;

@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 namespace Infrastructure.Data.Interfaces
 {
     public interface IDeliveryMethodRepository : IGenericRepository<DeliveryMethod>
-    {
-        
-
+    {       
     }
 }
