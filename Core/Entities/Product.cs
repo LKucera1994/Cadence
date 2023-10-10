@@ -4,9 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
-    public class Product :BaseEntity
+    public class Product
     {
-        
+        public int Id { get; set; }
+
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }

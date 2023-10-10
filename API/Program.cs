@@ -79,7 +79,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
-builder.Services.AddScoped(typeof(Infrastructure.Data.GenericRepository<>), typeof(Infrastructure.Data.GenericRepository<>));
+
 builder.Services.AddScoped(typeof(UserManager<AppUser>), typeof(UserManager<AppUser>));
 builder.Services.AddScoped(typeof(SignInManager<AppUser>), typeof(SignInManager<AppUser>));
 

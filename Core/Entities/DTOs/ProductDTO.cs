@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Core.Entities.DTOs
 {
-    public class ProductDTO:BaseEntity
+    public class ProductDTO
     {
+        public int Id { get; set; }
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }

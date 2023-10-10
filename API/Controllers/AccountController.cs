@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using API.Extensions;
+using AutoMapper;
 using Core.Entities.DTOs;
 using Core.Entities.Identity;
 using Infrastructure.Data;
@@ -33,7 +34,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
 
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var email = HttpContext.User.GetEmailFromPrinciple();
 
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -57,7 +58,7 @@ namespace API.Controllers
         [Authorize]
         public async Task<ActionResult<AppUserDto>> GetAppUser()
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var email = HttpContext.User.GetEmailFromPrinciple();
             var user = await _userManager.FindByEmailAsync(email);
 
             return _mapper.Map<AppUser,AppUserDto>(user);
@@ -68,7 +69,7 @@ namespace API.Controllers
         [Authorize]
         public async Task<ActionResult<AppUserDto>> UpdateAppUser(AppUserDto appUser)
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var email = HttpContext.User.GetEmailFromPrinciple();
             var user = await _userManager.FindByEmailAsync(email);
 
             if(!string.IsNullOrEmpty(appUser.DisplayName))
@@ -146,7 +147,7 @@ namespace API.Controllers
         [Authorize]
         public async Task<ActionResult> DeleteUser()
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var email = HttpContext.User.GetEmailFromPrinciple();
             var user = await _userManager.FindByEmailAsync(email);
 
             var result = await _userManager.DeleteAsync(user);
