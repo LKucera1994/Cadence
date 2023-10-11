@@ -18,29 +18,5 @@ namespace Infrastructure.Data.Repository
         {
             this.dataContext = dataContext;
         }
-        public async Task Update(Product product)
-        {
-            var productFromDb = dataContext.Products.FirstOrDefault(x=> x.Id == product.Id);
-
-            if(productFromDb != null)
-            {
-                
-                productFromDb.Name = product.Name;
-                productFromDb.Price = product.Price;
-                productFromDb.ProductType = product.ProductType;
-                productFromDb.ProductTypeId = product.ProductTypeId;
-                productFromDb.ProductBrand = product.ProductBrand;
-                productFromDb.ProductBrandId = product.ProductBrandId;
-                productFromDb.Description = product.Description;
-
-                if (product.PhotoUrl != null)
-                {
-                    productFromDb.PhotoUrl = product.PhotoUrl;
-
-                }
- 
-            }
-
-        }
     }
 }

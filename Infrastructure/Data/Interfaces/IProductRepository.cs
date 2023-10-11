@@ -9,6 +9,6 @@ namespace Infrastructure.Data.Repository.Interfaces
 {
     public interface IProductRepository: IGenericRepository<Product>
     {
-        Task Update(Product product); 
+         
     }
 }
