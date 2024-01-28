@@ -15,16 +15,16 @@ namespace Infrastructure.Data.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext _dataContext;
-        private readonly IConnectionMultiplexer _database;
+        //private readonly IConnectionMultiplexer _database;
         private readonly bool _disposed;
         
 
 
-        public UnitOfWork(DataContext dataContext, IConnectionMultiplexer database)
+        public UnitOfWork(DataContext dataContext/*, IConnectionMultiplexer database*/)
         {
             
             _dataContext = dataContext;
-            _database = database;
+            //_database = database;
             
             Product = new ProductRepository(_dataContext);
             ProductBrand = new ProductBrandRepository(_dataContext);

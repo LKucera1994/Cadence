@@ -13,7 +13,7 @@ namespace Infrastructure.Data.Repository
 {
     public class BasketRepository : IBasketRepository
     {
-        private readonly IDatabase _database;
+        //private readonly IDatabase _database;
         private readonly DataContext _datacontext;
         internal DbSet<UserBasket> dbSet;
 
@@ -29,12 +29,7 @@ namespace Infrastructure.Data.Repository
         {
             var basket = await _datacontext.UserBaskets.FirstOrDefaultAsync(x=> x.UniqueId == basketId);
             dbSet.Remove(basket);
-
-
-
-
-            
-           
+     
             //return await _database.KeyDeleteAsync(basketId);
         }
 

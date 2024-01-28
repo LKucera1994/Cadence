@@ -58,11 +58,7 @@ x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
-{
-    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
-    return ConnectionMultiplexer.Connect(configuration);
-});
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
