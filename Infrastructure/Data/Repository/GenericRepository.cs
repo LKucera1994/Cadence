@@ -20,7 +20,6 @@ namespace Infrastructure.Data.Repository
             this.dbSet = _dataContext.Set<T>();
         }
 
-
         public async Task<T> Add(T entity)
         {
             var result = await dbSet.AddAsync(entity);
@@ -34,18 +33,13 @@ namespace Infrastructure.Data.Repository
 
             return await query.ToListAsync();
         }
-
-
-
-       
-
+     
         public async Task<IEnumerable<T>> GetAll(Expression<Func<T,bool>>? predicate = null,string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if(predicate != null)
                 query = query.Where(predicate);
 
- 
             if(includeProperties != null)
             {
                 foreach(var property in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
@@ -74,12 +68,10 @@ namespace Infrastructure.Data.Repository
             }
 
             return await query.FirstOrDefaultAsync();
-
         }
 
         public void Remove(T entity)
-        {
-            
+        {          
              dbSet.Remove(entity);
         }
 

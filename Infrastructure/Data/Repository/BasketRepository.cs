@@ -14,15 +14,28 @@ namespace Infrastructure.Data.Repository
     public class BasketRepository : IBasketRepository
     {
         private readonly IDatabase _database;
+        private readonly DataContext _datacontext;
+        internal DbSet<UserBasket> dbSet;
 
-        public BasketRepository(IConnectionMultiplexer redis)
+        public BasketRepository(/*IConnectionMultiplexer redis,*/ DataContext datacontext)
         {
-            _database = redis.GetDatabase();
+            //_database = redis.GetDatabase();
+            _datacontext = datacontext;
+            this.dbSet = datacontext.Set<UserBasket>();
+
         }
 
-        public async Task<bool> DeleteBasketAsync(string basketId)
+        public async Task DeleteBasketAsync(string basketId)
         {
-            return await _database.KeyDeleteAsync(basketId);
+            var basket = await _datacontext.UserBaskets.FirstOrDefaultAsync(x=> x.UniqueId == basketId);
+            dbSet.Remove(basket);
+
+
+
+
+            
+           
+            //return await _database.KeyDeleteAsync(basketId);
         }
 
 
@@ -30,24 +43,52 @@ namespace Infrastructure.Data.Repository
         public async Task<UserBasket> GetBasketAsync(string basketId)
 
         {
-            var data = await _database.StringGetAsync(basketId);
+            var basket = await _datacontext.UserBaskets.FirstOrDefaultAsync(x => x.UniqueId == basketId);
 
-            if (data.IsNullOrEmpty)
-                return null;
 
-            return JsonSerializer.Deserialize<UserBasket>(data);
+
+            return basket;
+
+
+
+            //var data = await _database.StringGetAsync(basketId);
+
+            //if (data.IsNullOrEmpty)
+            //    return null;
+
+            //return JsonSerializer.Deserialize<UserBasket>(data);
 
 
         }
 
         public async Task<UserBasket> UpdateBasketAsync(UserBasket basket)
         {
-            var created = await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));
+            var basketInDb = await _datacontext.UserBaskets.FirstOrDefaultAsync(x => x.UniqueId == basket.UniqueId);
 
-            if (!created)
-                return null;
+            if (basketInDb == null)
+            {
+                var created = await _datacontext.AddAsync(basket);
 
-            return await GetBasketAsync(basket.Id);
+                if (created == null)
+                    return null;
+              
+            }
+
+            else
+            {
+                basketInDb.LogDate = DateTime.Now;
+                dbSet.Update(basket);                
+            }
+            await _datacontext.SaveChangesAsync();
+
+            return await GetBasketAsync(basket.UniqueId);
+
+            //var created = await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));
+
+            //if (!created)
+            //    return null;
+
+            //return await GetBasketAsync(basket.Id);
 
         }
     }

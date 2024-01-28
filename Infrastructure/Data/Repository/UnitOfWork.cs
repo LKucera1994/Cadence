@@ -16,7 +16,7 @@ namespace Infrastructure.Data.Repository
     {
         private readonly DataContext _dataContext;
         private readonly IConnectionMultiplexer _database;
-        private bool _disposed;
+        private readonly bool _disposed;
         
 
 
@@ -30,7 +30,7 @@ namespace Infrastructure.Data.Repository
             ProductBrand = new ProductBrandRepository(_dataContext);
             ProductType = new ProductTypeRepository(_dataContext);          
             DeliveryMethod = new DeliveryMethodRepository(_dataContext);
-            Basket = new BasketRepository(redis: _database);
+            Basket = new BasketRepository(_dataContext);
             Order = new OrderRepository(Basket, _dataContext);
 
         }

@@ -10,6 +10,7 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
@@ -18,15 +19,10 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DataContext>(options => {
-    options.UseSqlServer(connectionString);
-    
-    
+    options.UseSqlServer(connectionString); 
     });
 
 
@@ -43,14 +39,6 @@ builder.Services.AddIdentityCore<AppUser>(options =>
     .AddSignInManager<SignInManager<AppUser>>();
 
 builder.Services.AddSwaggerDocumentation();
-
-builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
-{
-    var options = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
-    return ConnectionMultiplexer.Connect(options);
-
-});
-
 
 builder.Services.AddCors(options=>
 {
@@ -125,6 +113,12 @@ var services = scope.ServiceProvider;
 var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
 app.MapControllers();
+app.MapFallbackToController("Index", "Fallback");
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(),"Content")), RequestPath ="/Content"
+});
 
 app.Run();
