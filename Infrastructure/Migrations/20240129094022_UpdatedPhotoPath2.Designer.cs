@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240129094022_UpdatedPhotoPath2")]
+    partial class UpdatedPhotoPath2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,7 +282,7 @@ namespace Infrastructure.Migrations
                             Id = 1,
                             Description = "Sample Description",
                             Name = "Nite Speedster Bike 2000",
-                            PhotoUrl = "Content/images/products/sb-ang1.jpg",
+                            PhotoUrl = "images/products/sb-ang1.jpg",
                             Price = 200m,
                             ProductBrandId = 1,
                             ProductTypeId = 1
@@ -290,7 +292,7 @@ namespace Infrastructure.Migrations
                             Id = 2,
                             Description = "Sample Description",
                             Name = "Green Nite Bike 3000",
-                            PhotoUrl = "Content/images/products/sb-ang2.jpg",
+                            PhotoUrl = "images/products/sb-ang2.jpg",
                             Price = 150m,
                             ProductBrandId = 1,
                             ProductTypeId = 1
@@ -300,7 +302,7 @@ namespace Infrastructure.Migrations
                             Id = 3,
                             Description = "Sample Description",
                             Name = "Speed Bike Speed Rush 3",
-                            PhotoUrl = "Content/images/products/sb-core1.jpg",
+                            PhotoUrl = "images/products/sb-core1.jpg",
                             Price = 180m,
                             ProductBrandId = 2,
                             ProductTypeId = 1
@@ -310,7 +312,7 @@ namespace Infrastructure.Migrations
                             Id = 4,
                             Description = "Sample Description",
                             Name = "Speed Super Bike",
-                            PhotoUrl = "Content/images/products/sb-core2.jpg",
+                            PhotoUrl = "images/products/sb-core2.jpg",
                             Price = 300m,
                             ProductBrandId = 2,
                             ProductTypeId = 1
@@ -320,7 +322,7 @@ namespace Infrastructure.Migrations
                             Id = 5,
                             Description = "Sample Description",
                             Name = "Bassos Bike Super Whizzy Fast",
-                            PhotoUrl = "Content/images/products/sb-react1.jpg",
+                            PhotoUrl = "images/products/sb-react1.jpg",
                             Price = 250m,
                             ProductBrandId = 4,
                             ProductTypeId = 1
@@ -330,7 +332,7 @@ namespace Infrastructure.Migrations
                             Id = 6,
                             Description = "Sample Description",
                             Name = "Porco Bike Entry",
-                            PhotoUrl = "Content/images/products/sb-ts1.jpg",
+                            PhotoUrl = "images/products/sb-ts1.jpg",
                             Price = 120m,
                             ProductBrandId = 5,
                             ProductTypeId = 1
@@ -340,7 +342,7 @@ namespace Infrastructure.Migrations
                             Id = 7,
                             Description = "Sample Description",
                             Name = "Speed Blue Hat",
-                            PhotoUrl = "Content/images/products/hat-core1.jpg",
+                            PhotoUrl = "images/products/hat-core1.jpg",
                             Price = 10m,
                             ProductBrandId = 2,
                             ProductTypeId = 2
@@ -350,7 +352,7 @@ namespace Infrastructure.Migrations
                             Id = 8,
                             Description = "Sample Description",
                             Name = "Green Bassos Woolen Hat",
-                            PhotoUrl = "Content/images/products/hat-react1.jpg",
+                            PhotoUrl = "images/products/hat-react1.jpg",
                             Price = 8m,
                             ProductBrandId = 4,
                             ProductTypeId = 2
@@ -360,7 +362,7 @@ namespace Infrastructure.Migrations
                             Id = 9,
                             Description = "Sample Description",
                             Name = "Purple Bassos Woolen Hat",
-                            PhotoUrl = "Content/images/products/hat-react2.jpg",
+                            PhotoUrl = "images/products/hat-react2.jpg",
                             Price = 15m,
                             ProductBrandId = 4,
                             ProductTypeId = 2
@@ -370,7 +372,7 @@ namespace Infrastructure.Migrations
                             Id = 10,
                             Description = "Sample Description",
                             Name = "Blue Despair Gloves",
-                            PhotoUrl = "Content/images/products/glove-code1.jpg",
+                            PhotoUrl = "images/products/glove-code1.jpg",
                             Price = 18m,
                             ProductBrandId = 3,
                             ProductTypeId = 4
@@ -380,7 +382,7 @@ namespace Infrastructure.Migrations
                             Id = 11,
                             Description = "Sample Description",
                             Name = "Green Despair Gloves",
-                            PhotoUrl = "Content/images/products/glove-code2.jpg",
+                            PhotoUrl = "images/products/glove-code2.jpg",
                             Price = 15m,
                             ProductBrandId = 3,
                             ProductTypeId = 4
@@ -390,7 +392,7 @@ namespace Infrastructure.Migrations
                             Id = 12,
                             Description = "Sample Description",
                             Name = "Purple Bassos Gloves",
-                            PhotoUrl = "Content/images/products/glove-react1.jpg",
+                            PhotoUrl = "images/products/glove-react1.jpg",
                             Price = 16m,
                             ProductBrandId = 4,
                             ProductTypeId = 4
@@ -400,7 +402,7 @@ namespace Infrastructure.Migrations
                             Id = 13,
                             Description = "Sample Description",
                             Name = "Green Bassos Gloves",
-                            PhotoUrl = "Content/images/products/glove-react2.jpg",
+                            PhotoUrl = "images/products/glove-react2.jpg",
                             Price = 14m,
                             ProductBrandId = 4,
                             ProductTypeId = 4
@@ -410,7 +412,7 @@ namespace Infrastructure.Migrations
                             Id = 14,
                             Description = "Sample Description",
                             Name = "Pavic Parts Red Boots",
-                            PhotoUrl = "Content/images/products/boot-redis1.jpg",
+                            PhotoUrl = "images/products/boot-redis1.jpg",
                             Price = 250m,
                             ProductBrandId = 6,
                             ProductTypeId = 3
@@ -420,7 +422,7 @@ namespace Infrastructure.Migrations
                             Id = 15,
                             Description = "Sample Description",
                             Name = "Speed Boots",
-                            PhotoUrl = "Content/images/products/boot-core2.jpg",
+                            PhotoUrl = "images/products/boot-core2.jpg",
                             Price = 189m,
                             ProductBrandId = 2,
                             ProductTypeId = 3
@@ -430,7 +432,7 @@ namespace Infrastructure.Migrations
                             Id = 16,
                             Description = "Sample Description",
                             Name = "Speed Purple Boots",
-                            PhotoUrl = "Content/images/products/boot-core1.jpg",
+                            PhotoUrl = "images/products/boot-core1.jpg",
                             Price = 199m,
                             ProductBrandId = 2,
                             ProductTypeId = 3
@@ -440,7 +442,7 @@ namespace Infrastructure.Migrations
                             Id = 17,
                             Description = "Sample Description",
                             Name = "Nite Purple Boots",
-                            PhotoUrl = "Content/images/products/boot-ang2.jpg",
+                            PhotoUrl = "images/products/boot-ang2.jpg",
                             Price = 150m,
                             ProductBrandId = 1,
                             ProductTypeId = 3
@@ -450,7 +452,7 @@ namespace Infrastructure.Migrations
                             Id = 18,
                             Description = "Sample Description",
                             Name = "Nite Blue Boots",
-                            PhotoUrl = "Content/images/products/boot-ang1.jpg",
+                            PhotoUrl = "images/products/boot-ang1.jpg",
                             Price = 180m,
                             ProductBrandId = 1,
                             ProductTypeId = 3

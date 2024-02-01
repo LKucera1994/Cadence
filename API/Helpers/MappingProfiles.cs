@@ -16,8 +16,6 @@ namespace API.Helpers
                 .ForMember(destination => destination.ProductType, origin => origin.MapFrom(x => x.ProductType.Name))
                 .ForMember(destination => destination.PhotoUrl, origin => origin.MapFrom<ProductUrlResolver>());
 
-            
-
             CreateMap<Order, OrderToReturnDto>()
                 .ForMember(destination => destination.DeliveryMethod, origin => origin.MapFrom(x=> x.DeliveryMethod.ShortName))
                 .ForMember(destination => destination.ShippingPrice, origin => origin.MapFrom(x => x.DeliveryMethod.Price));

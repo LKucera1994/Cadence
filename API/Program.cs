@@ -22,9 +22,15 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DataContext>(options => {
-    options.UseSqlServer(connectionString); 
+    options.UseNpgsql(connectionString); 
     });
 
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
+{
+    var options = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
+    return ConnectionMultiplexer.Connect(options);
+});
 
 
 builder.Services.AddIdentityCore<AppUser>(options =>
@@ -57,13 +63,9 @@ x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-
-
 builder.Services.AddScoped(typeof(UserManager<AppUser>), typeof(UserManager<AppUser>));
 builder.Services.AddScoped(typeof(SignInManager<AppUser>), typeof(SignInManager<AppUser>));
 
@@ -114,7 +116,8 @@ app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(),"Content")), RequestPath ="/Content"
+        Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+    RequestPath = "/Content"
 });
 
 app.Run();

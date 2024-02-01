@@ -20,7 +20,7 @@ namespace Infrastructure.Configurations
                     Name = "Nite Speedster Bike 2000",
                     Description = "Sample Description",
                     Price = 200,
-                    PhotoUrl = "images/products/sb-ang1.jpg",
+                    PhotoUrl = "Content/images/products/sb-ang1.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 1
                 },
@@ -31,7 +31,7 @@ namespace Infrastructure.Configurations
                     Name = "Green Nite Bike 3000",
                     Description = "Sample Description",
                     Price = 150,
-                    PhotoUrl = "images/products/sb-ang2.jpg",
+                    PhotoUrl = "Content/images/products/sb-ang2.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 1
                 },
@@ -41,7 +41,7 @@ namespace Infrastructure.Configurations
                     Name = "Speed Bike Speed Rush 3",
                     Description = "Sample Description",
                     Price = 180,
-                    PhotoUrl = "images/products/sb-core1.jpg",
+                    PhotoUrl = "Content/images/products/sb-core1.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 2
                 },
@@ -51,7 +51,7 @@ namespace Infrastructure.Configurations
                     Name = "Speed Super Bike",
                     Description = "Sample Description",
                     Price = 300,
-                    PhotoUrl = "images/products/sb-core2.jpg",
+                    PhotoUrl = "Content/images/products/sb-core2.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 2
                 },
@@ -61,7 +61,7 @@ namespace Infrastructure.Configurations
                     Name = "Bassos Bike Super Whizzy Fast",
                     Description = "Sample Description",
                     Price = 250,
-                    PhotoUrl = "images/products/sb-react1.jpg",
+                    PhotoUrl = "Content/images/products/sb-react1.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 4
                 },
@@ -71,7 +71,7 @@ namespace Infrastructure.Configurations
                     Name = "Porco Bike Entry",
                     Description = "Sample Description",
                     Price = 120,
-                    PhotoUrl = "images/products/sb-ts1.jpg",
+                    PhotoUrl = "Content/images/products/sb-ts1.jpg",
                     ProductTypeId = 1,
                     ProductBrandId = 5
                 },
@@ -81,7 +81,7 @@ namespace Infrastructure.Configurations
                     Name = "Speed Blue Hat",
                     Description = "Sample Description",
                     Price = 10,
-                    PhotoUrl = "images/products/hat-core1.jpg",
+                    PhotoUrl = "Content/images/products/hat-core1.jpg",
                     ProductTypeId = 2,
                     ProductBrandId = 2
                 },
@@ -91,7 +91,7 @@ namespace Infrastructure.Configurations
                     Name = "Green Bassos Woolen Hat",
                     Description = "Sample Description",
                     Price = 8,
-                    PhotoUrl = "images/products/hat-react1.jpg",
+                    PhotoUrl = "Content/images/products/hat-react1.jpg",
                     ProductTypeId = 2,
                     ProductBrandId = 4
                 },
@@ -101,7 +101,7 @@ namespace Infrastructure.Configurations
                     Name = "Purple Bassos Woolen Hat",
                     Description = "Sample Description",
                     Price = 15,
-                    PhotoUrl = "images/products/hat-react2.jpg",
+                    PhotoUrl = "Content/images/products/hat-react2.jpg",
                     ProductTypeId = 2,
                     ProductBrandId = 4
                 },
@@ -111,7 +111,7 @@ namespace Infrastructure.Configurations
                     Name = "Blue Despair Gloves",
                     Description = "Sample Description",
                     Price = 18,
-                    PhotoUrl = "images/products/glove-code1.jpg",
+                    PhotoUrl = "Content/images/products/glove-code1.jpg",
                     ProductTypeId = 4,
                     ProductBrandId = 3
                 },
@@ -121,7 +121,7 @@ namespace Infrastructure.Configurations
                     Name = "Green Despair Gloves",
                     Description = "Sample Description",
                     Price = 15,
-                    PhotoUrl = "images/products/glove-code2.jpg",
+                    PhotoUrl = "Content/images/products/glove-code2.jpg",
                     ProductTypeId = 4,
                     ProductBrandId = 3
                 },
@@ -131,7 +131,7 @@ namespace Infrastructure.Configurations
                     Name = "Purple Bassos Gloves",
                     Description = "Sample Description",
                     Price = 16,
-                    PhotoUrl = "images/products/glove-react1.jpg",
+                    PhotoUrl = "Content/images/products/glove-react1.jpg",
                     ProductTypeId = 4,
                     ProductBrandId = 4
                 },
@@ -141,7 +141,7 @@ namespace Infrastructure.Configurations
                     Name = "Green Bassos Gloves",
                     Description = "Sample Description",
                     Price = 14,
-                    PhotoUrl = "images/products/glove-react2.jpg",
+                    PhotoUrl = "Content/images/products/glove-react2.jpg",
                     ProductTypeId = 4,
                     ProductBrandId = 4
                 },
@@ -151,7 +151,7 @@ namespace Infrastructure.Configurations
                     Name = "Pavic Parts Red Boots",
                     Description = "Sample Description",
                     Price = 250,
-                    PhotoUrl = "images/products/boot-redis1.jpg",
+                    PhotoUrl = "Content/images/products/boot-redis1.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 6
                 },
@@ -161,7 +161,7 @@ namespace Infrastructure.Configurations
                     Name = "Speed Boots",
                     Description = "Sample Description",
                     Price = 189,
-                    PhotoUrl = "images/products/boot-core2.jpg",
+                    PhotoUrl = "Content/images/products/boot-core2.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 2
                 },
@@ -171,7 +171,7 @@ namespace Infrastructure.Configurations
                     Name = "Speed Purple Boots",
                     Description = "Sample Description",
                     Price = 199,
-                    PhotoUrl = "images/products/boot-core1.jpg",
+                    PhotoUrl = "Content/images/products/boot-core1.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 2
                 },
@@ -181,7 +181,7 @@ namespace Infrastructure.Configurations
                     Name = "Nite Purple Boots",
                     Description = "Sample Description",
                     Price = 150,
-                    PhotoUrl = "images/products/boot-ang2.jpg",
+                    PhotoUrl = "Content/images/products/boot-ang2.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 1
                 },
@@ -191,7 +191,7 @@ namespace Infrastructure.Configurations
                     Name = "Nite Blue Boots",
                     Description = "Sample Description",
                     Price = 180,
-                    PhotoUrl = "images/products/boot-ang1.jpg",
+                    PhotoUrl = "Content/images/products/boot-ang1.jpg",
                     ProductTypeId = 3,
                     ProductBrandId = 1
                 }

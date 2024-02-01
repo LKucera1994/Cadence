@@ -11,6 +11,6 @@ namespace Infrastructure.Data.Repository.Interfaces
     {      
         Task<UserBasket> UpdateBasketAsync(UserBasket basket);
         Task<UserBasket> GetBasketAsync(string basketId);
-        Task DeleteBasketAsync (string basketId);        
+        Task<bool> DeleteBasketAsync (string basketId);        
     }
 }
