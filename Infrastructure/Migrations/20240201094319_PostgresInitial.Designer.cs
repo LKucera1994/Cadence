@@ -3,126 +3,100 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230821113245_AddedIdentityTables")]
-    partial class AddedIdentityTables
+    [Migration("20240201094319_PostgresInitial")]
+    partial class PostgresInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "6.0.22")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Core.Entities.Identity.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("AddUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddUserId")
-                        .IsUnique();
-
-                    b.ToTable("Address");
-                });
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Core.Entities.Identity.AppUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
+
+                    b.Property<string>("State")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("Zipcode")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -131,42 +105,167 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Entities.OrderAggregate.DeliveryMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DeliveryTime")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryMethods");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DeliveryTime = "1-2 Days",
+                            Description = "Fastest delivery time",
+                            Price = 10m,
+                            ShortName = "UPS1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DeliveryTime = "2-5 Days",
+                            Description = "Get it within 5 days",
+                            Price = 5m,
+                            ShortName = "UPS2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DeliveryTime = "5-10 Days",
+                            Description = "Slower but cheap",
+                            Price = 2m,
+                            ShortName = "UPS3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DeliveryTime = "1-2 Weeks",
+                            Description = "Free! You get what you pay for",
+                            Price = 0m,
+                            ShortName = "FREE"
+                        });
+                });
+
+            modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BuyerEmail")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("DeliveryMethodId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PaymentIntentId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveryMethodId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Core.Entities.OrderAggregate.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasColumnType("character varying(300)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("PhotoUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<int>("ProductBrandId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ProductTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -182,7 +281,7 @@ namespace Infrastructure.Migrations
                             Id = 1,
                             Description = "Sample Description",
                             Name = "Nite Speedster Bike 2000",
-                            PhotoUrl = "images/products/sb-ang1.jpg",
+                            PhotoUrl = "Content/images/products/sb-ang1.jpg",
                             Price = 200m,
                             ProductBrandId = 1,
                             ProductTypeId = 1
@@ -192,7 +291,7 @@ namespace Infrastructure.Migrations
                             Id = 2,
                             Description = "Sample Description",
                             Name = "Green Nite Bike 3000",
-                            PhotoUrl = "images/products/sb-ang2.jpg",
+                            PhotoUrl = "Content/images/products/sb-ang2.jpg",
                             Price = 150m,
                             ProductBrandId = 1,
                             ProductTypeId = 1
@@ -202,7 +301,7 @@ namespace Infrastructure.Migrations
                             Id = 3,
                             Description = "Sample Description",
                             Name = "Speed Bike Speed Rush 3",
-                            PhotoUrl = "images/products/sb-core1.jpg",
+                            PhotoUrl = "Content/images/products/sb-core1.jpg",
                             Price = 180m,
                             ProductBrandId = 2,
                             ProductTypeId = 1
@@ -212,7 +311,7 @@ namespace Infrastructure.Migrations
                             Id = 4,
                             Description = "Sample Description",
                             Name = "Speed Super Bike",
-                            PhotoUrl = "images/products/sb-core2.jpg",
+                            PhotoUrl = "Content/images/products/sb-core2.jpg",
                             Price = 300m,
                             ProductBrandId = 2,
                             ProductTypeId = 1
@@ -222,7 +321,7 @@ namespace Infrastructure.Migrations
                             Id = 5,
                             Description = "Sample Description",
                             Name = "Bassos Bike Super Whizzy Fast",
-                            PhotoUrl = "images/products/sb-react1.jpg",
+                            PhotoUrl = "Content/images/products/sb-react1.jpg",
                             Price = 250m,
                             ProductBrandId = 4,
                             ProductTypeId = 1
@@ -232,7 +331,7 @@ namespace Infrastructure.Migrations
                             Id = 6,
                             Description = "Sample Description",
                             Name = "Porco Bike Entry",
-                            PhotoUrl = "images/products/sb-ts1.jpg",
+                            PhotoUrl = "Content/images/products/sb-ts1.jpg",
                             Price = 120m,
                             ProductBrandId = 5,
                             ProductTypeId = 1
@@ -242,7 +341,7 @@ namespace Infrastructure.Migrations
                             Id = 7,
                             Description = "Sample Description",
                             Name = "Speed Blue Hat",
-                            PhotoUrl = "images/products/hat-core1.jpg",
+                            PhotoUrl = "Content/images/products/hat-core1.jpg",
                             Price = 10m,
                             ProductBrandId = 2,
                             ProductTypeId = 2
@@ -252,7 +351,7 @@ namespace Infrastructure.Migrations
                             Id = 8,
                             Description = "Sample Description",
                             Name = "Green Bassos Woolen Hat",
-                            PhotoUrl = "images/products/hat-react1.jpg",
+                            PhotoUrl = "Content/images/products/hat-react1.jpg",
                             Price = 8m,
                             ProductBrandId = 4,
                             ProductTypeId = 2
@@ -262,7 +361,7 @@ namespace Infrastructure.Migrations
                             Id = 9,
                             Description = "Sample Description",
                             Name = "Purple Bassos Woolen Hat",
-                            PhotoUrl = "images/products/hat-react2.jpg",
+                            PhotoUrl = "Content/images/products/hat-react2.jpg",
                             Price = 15m,
                             ProductBrandId = 4,
                             ProductTypeId = 2
@@ -272,7 +371,7 @@ namespace Infrastructure.Migrations
                             Id = 10,
                             Description = "Sample Description",
                             Name = "Blue Despair Gloves",
-                            PhotoUrl = "images/products/glove-code1.jpg",
+                            PhotoUrl = "Content/images/products/glove-code1.jpg",
                             Price = 18m,
                             ProductBrandId = 3,
                             ProductTypeId = 4
@@ -282,7 +381,7 @@ namespace Infrastructure.Migrations
                             Id = 11,
                             Description = "Sample Description",
                             Name = "Green Despair Gloves",
-                            PhotoUrl = "images/products/glove-code2.jpg",
+                            PhotoUrl = "Content/images/products/glove-code2.jpg",
                             Price = 15m,
                             ProductBrandId = 3,
                             ProductTypeId = 4
@@ -292,7 +391,7 @@ namespace Infrastructure.Migrations
                             Id = 12,
                             Description = "Sample Description",
                             Name = "Purple Bassos Gloves",
-                            PhotoUrl = "images/products/glove-react1.jpg",
+                            PhotoUrl = "Content/images/products/glove-react1.jpg",
                             Price = 16m,
                             ProductBrandId = 4,
                             ProductTypeId = 4
@@ -302,7 +401,7 @@ namespace Infrastructure.Migrations
                             Id = 13,
                             Description = "Sample Description",
                             Name = "Green Bassos Gloves",
-                            PhotoUrl = "images/products/glove-react2.jpg",
+                            PhotoUrl = "Content/images/products/glove-react2.jpg",
                             Price = 14m,
                             ProductBrandId = 4,
                             ProductTypeId = 4
@@ -312,7 +411,7 @@ namespace Infrastructure.Migrations
                             Id = 14,
                             Description = "Sample Description",
                             Name = "Pavic Parts Red Boots",
-                            PhotoUrl = "images/products/boot-redis1.jpg",
+                            PhotoUrl = "Content/images/products/boot-redis1.jpg",
                             Price = 250m,
                             ProductBrandId = 6,
                             ProductTypeId = 3
@@ -322,7 +421,7 @@ namespace Infrastructure.Migrations
                             Id = 15,
                             Description = "Sample Description",
                             Name = "Speed Boots",
-                            PhotoUrl = "images/products/boot-core2.jpg",
+                            PhotoUrl = "Content/images/products/boot-core2.jpg",
                             Price = 189m,
                             ProductBrandId = 2,
                             ProductTypeId = 3
@@ -332,7 +431,7 @@ namespace Infrastructure.Migrations
                             Id = 16,
                             Description = "Sample Description",
                             Name = "Speed Purple Boots",
-                            PhotoUrl = "images/products/boot-core1.jpg",
+                            PhotoUrl = "Content/images/products/boot-core1.jpg",
                             Price = 199m,
                             ProductBrandId = 2,
                             ProductTypeId = 3
@@ -342,7 +441,7 @@ namespace Infrastructure.Migrations
                             Id = 17,
                             Description = "Sample Description",
                             Name = "Nite Purple Boots",
-                            PhotoUrl = "images/products/boot-ang2.jpg",
+                            PhotoUrl = "Content/images/products/boot-ang2.jpg",
                             Price = 150m,
                             ProductBrandId = 1,
                             ProductTypeId = 3
@@ -352,7 +451,7 @@ namespace Infrastructure.Migrations
                             Id = 18,
                             Description = "Sample Description",
                             Name = "Nite Blue Boots",
-                            PhotoUrl = "images/products/boot-ang1.jpg",
+                            PhotoUrl = "Content/images/products/boot-ang1.jpg",
                             Price = 180m,
                             ProductBrandId = 1,
                             ProductTypeId = 3
@@ -363,13 +462,13 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -412,13 +511,13 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -450,26 +549,25 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
@@ -478,19 +576,19 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -503,19 +601,19 @@ namespace Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -527,17 +625,17 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -549,10 +647,10 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -564,31 +662,112 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Entities.Identity.Address", b =>
+            modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>
                 {
-                    b.HasOne("Core.Entities.Identity.AppUser", "AppUser")
-                        .WithOne("Address")
-                        .HasForeignKey("Core.Entities.Identity.Address", "AddUserId")
+                    b.HasOne("Core.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
+                        .WithMany()
+                        .HasForeignKey("DeliveryMethodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.OwnsOne("Core.Entities.OrderAggregate.Address", "ShipToAddress", b1 =>
+                        {
+                            b1.Property<int>("OrderId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
+                            b1.Property<string>("ZipCode")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Order");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.Navigation("DeliveryMethod");
+
+                    b.Navigation("ShipToAddress")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Core.Entities.OrderAggregate.OrderItem", b =>
+                {
+                    b.HasOne("Core.Entities.OrderAggregate.Order", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("Core.Entities.OrderAggregate.ProductItemOrdered", "ItemOrdered", b1 =>
+                        {
+                            b1.Property<int>("OrderItemId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("PictureUrl")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<int>("ProductItemId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("ProductName")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("OrderItemId");
+
+                            b1.ToTable("OrderItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderItemId");
+                        });
+
+                    b.Navigation("ItemOrdered")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.Product", b =>
@@ -661,10 +840,9 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Core.Entities.Identity.AppUser", b =>
+            modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }
