@@ -120,4 +120,19 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Content"
 });
 
+var context = services.GetRequiredService<DataContext>();
+var logger = services.GetRequiredService<ILogger<Program>>();
+try
+{
+    context.Database.Migrate();
+    
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "Error during migration");
+
+}
+
+
+
 app.Run();
